@@ -1,61 +1,62 @@
 (ns tiltontec.xhr-test
   (:require
-    #?(:clj [clojure.test :refer :all]
-       :cljs [cljs.test :refer-macros [deftest is testing]])
-
-    [tiltontec.xhr
-     :refer [make-xhr send-xhr xhr-response xhr-send xhr-await xhr-status
-             xhr-status-key xhr-resolved xhr-error? xhrfo synaptic-xhr
-             xhr-selection xhr-to-map xhr-name-to-map]]
-
-            [clojure.string :as str]
-            [clojure.set :as set]
-            [#?(:cljs cljs.pprint :clj clojure.pprint) :refer [pprint cl-format]]
-            [tiltontec.util.core :refer [pln xor now *plnk-keys*
-                                         counts countit counts-reset]]
-            [tiltontec.cell.evaluate :refer [c-get c-awaken not-to-be]]
+    [clojure.test :refer :all]
+    [clojure.string :as str]
+    [clojure.set :as set]
+    [#?(:cljs cljs.pprint :clj clojure.pprint) :refer [pprint cl-format]]
+    [tiltontec.util.core :refer [pln xor now *plnk-keys*
+                                 counts countit counts-reset]]
+    [tiltontec.cell.evaluate :refer [c-get c-awaken not-to-be]]
 
     #?(:clj
-            [tiltontec.cell.base :refer :all]
+    [tiltontec.cell.base :refer :all]
        :cljs [tiltontec.cell.base
               :refer-macros [without-c-dependency]
               :refer [cells-init +pulse+ unbound cpr]])
-            [tiltontec.cell.integrity :refer [*dp-log*]]
-            [tiltontec.cell.core :refer :all]
+    [tiltontec.cell.integrity :refer [*dp-log*]]
+    [tiltontec.cell.core :refer :all]
 
     #?(:clj
-            [tiltontec.model.core :refer :all :as md]
+    [tiltontec.model.core :refer :all :as md]
        :cljs [tiltontec.model.core
               :refer-macros [the-kids mdv!]
               :refer [md-get fasc fm! make md-reset! backdoor-reset!
                       mx-par]
               :as md])
 
+    [tiltontec.xhr
+     :refer [make-xhr send-xhr send-unparsed-xhr xhr-send xhr-await xhr-status
+             xhr-status-key xhr-resolved xhr-error xhr-error? xhrfo synaptic-xhr synaptic-xhr-unparsed
+             xhr-selection xhr-to-map xhr-name-to-map]]
+
     #?(:clj
-            [tiltontec.cell.synapse :refer :all]
+    [tiltontec.cell.synapse :refer :all]
        :cljs [tiltontec.cell.synapse
               :refer-macros [with-synapse]
               :refer []])
 
     #?(:clj
-            [tiltontec.cell.observer :refer [fn-obs]]
+    [tiltontec.cell.observer :refer [fn-obs]]
        :cljs [tiltontec.cell.observer :refer-macros [fn-obs]])
 
-            [cheshire.core :refer :all]
+    [cheshire.core :refer :all]
 
     #?(:clj
-            [clj-http.util :as httpu]
+    [clj-http.util :as httpu]
        :cljs [cljs-http.util :as httpu])
 
     #?(:clj
-            [clj-http.client :as client]
+    [clj-http.client :as client]
        :cljs [cljs-http.client :as client])))
+
+#_(httpu/url-encode "https://api.fda.gov/drug/enforcement.json?search=recalling_firm:Teva Woman%27s Health&limit=1")
 
 (declare cf-await)
 
 (def ae-adderall "https://api.fda.gov/drug/event.json?search=patient.drug.openfda.brand_name:adderall&limit=3")
 
 (deftest fda-adderall-ok
+  (cells-init)
   (let [xhr (xhr-await (send-xhr ae-adderall))]
     (is (= 200 (xhr-status xhr)))
     (is (= 3 (count (:results (xhr-selection xhr)))))
@@ -63,8 +64,14 @@
       (pln :ae (keys ae)))))
 
 (deftest fda-adderall-syntax-error
+  (cells-init)
   (let [xhr (xhr-await (send-xhr (str/replace ae-adderall #"search" "surch")))]
-    (is (not= 200 (xhr-status xhr)))))
+    (prn :adderall-err-delib (xhr-error xhr))
+    (is (not= 200 (xhr-status xhr)))
+    (let [{:keys [code message]} (:error (xhr-error xhr))]
+      (is (= code "BAD_REQUEST"))
+      (is (.contains message "surch"))
+      (prn :code code))))
 
 #_(let [uri ae-adderall]
     (client/get uri
@@ -110,19 +117,21 @@
       (is (= 3 (count (:results (xhr-selection xhr)))))))
 
 (deftest recall-fail
+  (cells-init)
   (let [xhr (xhr-await
               (send-xhr
                 (str "https://api.fda.gov/drug/enforcement.json?"
                      (do                                    ;; httpu/url-encode
                        "search=recalling_firm:Teva Woman&limit=1"))))]
     (println :Teva (xhr-status-key xhr)
-             (:recalling_firm (first (:results (xhr-selection xhr)))))))
+             (:recalling_firm (first (:results (xhr-selection xhr)))))
+    (is (= 200 (xhr-status xhr)))))
 
 (declare xhr-dump)
 
 (defn patient-drugs [ae]
   (c? (the-kids
-        (for [drug (:drug (:patient ae))
+        (for [drug (do (:drug (:patient ae)))
               :let [ndc (first (get-in drug [:openfda :product_ndc]))
                     mfr-name (first (get-in drug [:openfda :manufacturer_name]))]]
           (do (countit [:ae :drug])
@@ -148,6 +157,7 @@
   ;;   for each drug taken by patient
   ;;     get the labeling
   ;;     get up to 3 recall notices from the manufacturer
+  (cells-init)
   (counts-reset)
   (let [ae-count 1
         brand "adderall"
@@ -167,14 +177,16 @@
 
 
     (when (xhr-await top)
-      (is (= 200 (xhr-status-key top)))
+      (prn :statuskey (xhr-status-key top))
+      (is (= :ok (xhr-status-key top)))
       (is (= ae-count (count (md-kids top))))
       (doseq [ae (md-kids top)]
         (doseq [drug (md-kids ae)]
           (doseq [info (md-kids drug)]
-            (is (some #{(xhr-status-key info)} [200 400 404])))))
 
-      (pprint (xhr-to-map top))
+            (is (some #{(xhr-status-key info)} [:ok [:error 400] [:error 404] 400 404])))))
+
+      ;; (pprint (xhr-to-map top))
 
       (println :fini!!!!!!!! @counts))))
 
@@ -271,46 +283,79 @@
                (do
                  (cpr tag :xhr-dump-fail! tag (xhr-status-key xhr) (:uri @xhr))))))
 
-(deftest xhr-sequentially
-  ;; kick off one at a time waiting for the prior to complete before sending next.
+(defn xhr-html [uri]
+  (send-xhr uri
+            {:body-parser identity}))
+
+(deftest xhr-index-html
+  ;; get just one
   (cells-init)
 
   (let [xhrs (c?+ [:slot :synch!
                    :obs (fn-obs (when new
                                   (println :fini!!! (map xhrfo new))
-                                  (is (= 3 (count new)))
-                                  (is (every? #(= :responded (xhr-status-key %)) new))))]
+                                  (is (= 1 (count new)))
+                                  (is (every? #(= :ok (xhr-status-key %)) new))))]
+                  (prn :checking-google)
 
-                  (when-let [google (xhr-resolved (with-synapse (:s-goog)
-                                                                (send-xhr "http://google.com")))]
+                  (let [google (with-synapse (:s-goog)
+                                             (xhr-html "http://google.com"))]
+                    (when-let [resp (md-get google :response)]
+                      (println :got-google-response!!! resp)
 
-                    (when-let [yahoo (xhr-resolved (with-synapse (:s-yahoo)
-                                                                 (send-xhr "http://yahoo.com")))]
-                      (when-let [youtube (xhr-resolved (with-synapse (:s-tube)
-                                                                     (send-xhr "http://youtube.com")))]
-                        (cpr :youtube! (xhrfo youtube))
-                        (list google yahoo youtube)))))]
+                      (list google))))]
 
-    (let [r (cf-await xhrs)]
+    (let [r (cf-await xhrs 3)]
+      (is (not (nil? r)))
+      (when r
+        (println :statkey (xhr-status (first r)))
+        (is (= 1 (count r)))
+        (is (every? #(= 200 (xhr-status %)) r)))
+      (println :topfini (map xhrfo (c-get xhrs))))))
+
+(deftest xhr-sequentially
+  ;; kick off one at a time waiting for the prior to complete before sending next.
+  (cells-init)
+
+  (let [xhrs-cell (c?+ [:slot :synch!
+                        :obs (fn-obs (when new
+                                       (println :fini!!! (map xhrfo new))
+                                       (is (= 3 (count new)))
+                                       (is (every? #(= :responded (xhr-status-key %)) new))))]
+
+                       (when-let [google (xhr-await (with-synapse (:s-goog)
+                                                                  (xhr-html "http://google.com")))]
+
+                         (when-let [yahoo (xhr-await (with-synapse (:s-yahoo)
+                                                                   (xhr-html "http://yahoo.com")))]
+                           (when-let [youtube (xhr-await (with-synapse (:s-tube)
+                                                                       (xhr-html "http://youtube.com")))]
+                             (cpr :youtube! (xhrfo youtube))
+                             (list google yahoo youtube)))))]
+    ;; cf-await means cell-formulaic await. Although the body above shows xhr-wait, that
+    ;; is just the body of the cell. In cf-await we patiently wait for the cell formula to
+    ;; return a non-nil value, and
+
+    (let [r (cf-await xhrs-cell)]
       (is (not (nil? r)))
       (when r
         (is (= 3 (count r)))
-        (is (every? #(= :responded (xhr-status-key %)) r)))
-      (println :topfini (map xhrfo (c-get xhrs))))))
+        (is (every? #(= 200 (xhr-status %)) r)))
+      (println :topfini (map xhrfo (c-get xhrs-cell))))))
 
 (deftest xhr-parallel-one-result
   ;; make a list of requests and produce a list of the responses when all three have completed.
   (cells-init)
   (let [sites (do ["http://google.com" "http://yahoo.com" "http://youtube.com"])
-        xhrs (c? (when-let [xhrs (with-synapse (:make-xhrs [])
-                                               (map send-xhr sites))]
-                   (when (every? #(some #{(xhr-status-key %)} [:responded :error]) xhrs)
-                     xhrs)))]
-    (let [r (cf-await xhrs)]
+        xhrs-cell (c? (when-let [xhrs (with-synapse (:make-xhrs [])
+                                                    (map xhr-html sites))]
+                        (when (every? #(some #{(xhr-status-key %)} [:ok :error]) xhrs)
+                          xhrs)))]
+    (let [r (cf-await xhrs-cell)]
       (is (not (nil? r)))
       (when r
         (is (= 3 (count r)))
-        (is (every? #(= :responded (xhr-status-key %)) r))))))
+        (is (every? #(some #{(xhr-status-key %)} [:ok :error]) r))))))
 
 (deftest xhr-if-error-else
   ;; do an if-else based on error or success of first xhr
@@ -318,37 +363,47 @@
   ;; also, we introduce some syntactic sugar: synaptic-xhr
   ;;
   (cells-init)
-  (letfn [(cx-if-else [goog-uri]
-            (c? (when-let [google (synaptic-xhr :s-goog goog-uri)]
-                  (if (xhr-error? google)
-                    (when-let [yahoo (synaptic-xhr :s-yahoo "http://yahoo.com")]
-                      (cpr :goog-error-try-yahoo)
-                      (list yahoo))
-                    (when-let [youtube (synaptic-xhr :s-youtube "http://youtube.com")]
-                      (cpr :goog-ok-add-youtube)
-                      (list google youtube))))))]
-    (let [cx-ok (cx-if-else "http://google.com")]
-      (let [r (cf-await cx-ok)]
-        (is (= 2 (count r)))
-        (is (some #(.contains (md-get % :uri) "google") r))
-        (is (some #(.contains (md-get % :uri) "youtube") r))))
-    (let [cx-ok (cx-if-else "http://googlexxxxxx.com")]
-      (let [r (cf-await cx-ok)]
-        (is (= 1 (count r)))
-        (is (some #(.contains (md-get % :uri) "yahoo") r))))))
-
-
+  (binding [*dp-log* true]
+    (letfn [(cx-if-else [goog-uri]
+              (c? (cpr :runnning!!!)
+                  (when-let [google (with-synapse (:s-goog)
+                                                  (send-unparsed-xhr :s-goog "http://google.com" false))]
+                    (cpr :got-goog??? google)
+                    (when (md-get google :response)
+                      (cpr :got-goog!!! (xhrfo google))
+                      (if (xhr-error? google)
+                        (when-let [yahoo (synaptic-xhr-unparsed :s-yahoo "http://yahoo.com")]
+                          (cpr :goog-error-try-yahoo)
+                          (list yahoo))
+                        (when-let [youtube (synaptic-xhr-unparsed :s-youtube "http://youtube.com")]
+                          (cpr :goog-ok-add-youtube)
+                          (list google youtube)))))))]
+      (let [cx-ok (cx-if-else "http://google.com")]
+        (let [r (cf-await cx-ok)]
+          (is (not (nil? r)))
+          (when r
+            (is (= 2 (count r)))
+            (is (some #(.contains (md-get % :uri) "google") r))
+            (is (some #(.contains (md-get % :uri) "youtube") r)))))
+      #_
+          (let [cx-ok (cx-if-else "http://googlexxxxxx.com")]
+            (let [r (cf-await cx-ok)]
+              (is (not (nil? r)))
+              (when r
+                (is (= 1 (count r)))
+                (is (some #(.contains (md-get % :uri) "yahoo") r))))))))
 
 (deftest xhr-send-group-get-as-received
   ;; kick off  requests and return them one at a time in order received.
   (cells-init)
-  (let [sites ["http://google.com" "http://yahoo.com" "http://youtube.com"]
+  (let [sites ["http://google.com" "http://yahoo.com" "http://youtube.com" "http://example.com"]
         responses (atom [])
         h (let [open-xhrs (atom nil)]
-            (c? (when-let [xhrs (with-synapse (:make-xhrs)
-                                              (reset! open-xhrs (set (map send-xhr sites))))]
-                  (let [done (filter #(some #{(xhr-status-key %)} [:responded :error]) @open-xhrs)]
-                    (assert (>= 1 (count done)) "done count NG")
+            (c? (let [xhrs (with-synapse (:make-xhrs)
+                                         (reset! open-xhrs (set (map #(send-unparsed-xhr :group % false) sites))))
+                      done (filter #(when (md-get % :response) %) @open-xhrs)]
+                  (when (seq done)
+                    (assert (= 1 (count done)) (str "done count NG:" (count done)))
                     (reset! open-xhrs (set/difference @open-xhrs done))
                     (first done)))))
         h1 (c?+ [:obs (fn-obs
@@ -361,33 +416,36 @@
       (cf-await h1))
     (Thread/sleep 2000)
     (println :responses @responses)
-    (is (= 3 (count @responses)))))
+    (is (= 4 (count @responses)))))
 
 (deftest xhr-tree-simple
   (binding [*plnk-keys* [:xhr]]
     (let [top (make-xhr "http://google.com"
                         {:send? false
+                         :body-parser identity
                          :kids  (c? (cpr :kidrule!!!!!!)
-                                    (when-let [parent (xhr-resolved me)]
+                                    (when-let [parent (md-get me :response)]
                                       (the-kids
                                         (make-xhr "http://yahoo.com"
                                                   {:par   me
-                                                   :send? true})
+                                                   :send? true
+                                                   :body-parser identity})
                                         (make-xhr "http://youtube.com"
                                                   {:par   me
-                                                   :send? true}))))})]
+                                                   :send? true
+                                                   :body-parser identity}))))})]
 
       (xhr-send top)
       (when (xhr-await top)
         (pln :waited!!!!!!!!!)
-        (when (xhr-resolved top)
+        (when (md-get top :response)
           (pln :testing!!!!!!!!!!!!!!)
-          (is (= :responded (xhr-status-key top)))
+          (is (= 200 (xhr-status top)))
           (is (= 2 (count (md-kids top))))
           (doseq [k (md-kids top)]
             (xhr-await k)
             (do                                             ;; when (xhr-resolved k)
-              (is (= :responded (xhr-status-key k))))))
+              (is (= 200 (xhr-status k))))))
         (println :fini!!!!!!!!)))))
 
 
@@ -429,15 +487,15 @@
 (defn cf-await
   ([c] (cf-await c 10))
   ([c max-seconds]
-   (println :cf-waiting!!!!!!)
+    ;;(println :cf-waiting!!!!!!)
    (loop [x 0]
      (let [r (c-get c)]
        (cond
-         r (do (print :bingor (xhrfo r)) r)
+         r (do ;;(print :bingor r)
+               r)
          (< x 10) (do
-                    (println :sleeping x)
+                    ;;(println :cf-awaitsleeping x)
                     (Thread/sleep 1000)
                     (recur (inc x)))
-         :default (do (println :maxo)
-                      nil))))))
-
+         :default (do                                       ;;(println :maxo)
+                    nil))))))

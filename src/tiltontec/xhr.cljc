@@ -88,32 +88,35 @@
 
 (defn xhr-send [xhr]
   (let [uri (md-get xhr :uri)]
-    ;;(cpr :xhr-send-sending uri)
+    (cpr :xhr-send-sending uri)
 
     #?(:clj (client/get uri
                         {:async? true}
                         (fn [response]
-                          ;;(cpr :xhr-response!!! (:id @xhr) (:status response) uri)
+                          (cpr :xhr-response!!! (:id @xhr) (:status response) uri)
                           (countit [:xhr :reponse])
                           (if (mdead? xhr)
                             (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))
-                            (do                             ;; (cpr :hitting-with-cc *within-integrity*)
+                            (do
+                              ;;(cpr :hitting-with-cc *within-integrity*)
                               (with-cc :xhr-handler-sets-responded
 
                                        ;(cpr :xhr-handler-body)
                                        ;;(cpr :xhr-handler-sets-responded (:status response) uri)
                                        ;; (pprint (parse-string (:body response) true))
                                        (md-reset! xhr :response {:status (:status response)
-                                                                 :body   (parse-string (:body response) true)})))))
+                                                                 :body   ((:body-parser @xhr) (:body response))})))))
                         (fn [exception]
                           (countit [:xhr :exception])
+                          (cpr "xhr-send> raw exception" exception)
                           (let [edata (:data (bean exception))]
 
                             (cpr :xhr-exception!!! (:id @xhr) uri (:status edata) (parse-string (:body edata) true))
+                            ;;(pprint (bean exception))
                             ;; (pprint (dissoc (bean exception) :stackTracexx))
                             (when-not (mdead? xhr)
                               (with-cc :xhr-handler-sets-error
-                                       (cpr :xhr-handler-sets-error)
+                                       ;; (cpr :xhr-handler-sets-error (:status edata)(parse-string (:body edata) true))
                                        (md-reset! xhr :response {:status (:status edata)
                                                                  :body   (parse-string (:body edata) true)})))))))))
 
@@ -143,12 +146,13 @@
                     :uri uri
                     :response (c-in nil)
                     :select nil
+                    :body-parser (:body-parser attrs #(parse-string % true))
                     :selection (c? (when-let [b (xhr-ok-body me)]
                                      ;; (pln :sel-sees-body!! (md-get me :select) b)
                                      (if-let [ks (md-get me :select)]
                                        (select-keys b ks)
                                        b)))
-                    (vec (apply concat (seq (dissoc attrs :send?)))))]
+                    (vec (apply concat (seq (dissoc attrs :send? :body-parser)))))]
      ;;(cpr :made!!!!!!!!!!)
      (when (:send? attrs)
        (xhr-send xhr))
@@ -223,18 +227,46 @@
 
 ;;; --- utilities ----------------
 
-(defn xhr-status-key [xhr]
-  (xhr-status xhr))
+(defn xhr-status-key [xhr] ;; hunh? just a debug hack I think
+  (if-let [status (xhr-status xhr)]
+    (case status
+      200 :ok
+      [:error status])
+    :unresponded))
 
-(defn xhr-resolved [xhr]                                    ;; deprecated
-  (xhr-response xhr))
+(defn xhr-resolved [xhr]                                    ;; deprecated; use xhr-await
+  (when (xhr-response xhr)
+    xhr))
 
 (defn xhr-error? [xhr]
-  (= (xhr-status-key xhr) :error))
+  (not= 200 (xhr-status xhr)))
 
 (defn xhrfo [xhr]
   [(xhr-status-key xhr)
    (md-get xhr :uri)])
+
+(defn xhr-await
+  ([xhr] (xhr-await xhr 3))
+  ([xhr max-seconds]
+
+   (cond
+     (xhr-response xhr)
+     (do ;;(println :xhr-resolved (xhr-response xhr))
+       (cpr :xhr-resolved (xhrfo xhr))
+       xhr)
+
+     (> max-seconds 0)
+     #?(:clj  (do
+                (cpr :xhr-await-sleeping-max max-seconds (xhrfo xhr))
+                (Thread/sleep 1000)
+                (recur xhr (dec max-seconds)))
+        :cljs (js/setTimeout
+                (fn []
+                  (cpr :xhr-await-sleeping-max max-seconds (xhrfo xhr))
+                  (xhr-await xhr (dec max-seconds))) 1000))
+
+     :default (do (println :xhr-await-timeout! max-seconds (xhrfo xhr))
+                  nil))))
 
 (defn synaptic-xhr
   ([id uri] (synaptic-xhr id uri true))
@@ -243,24 +275,19 @@
      (with-synapse (id)
                    (send-xhr id uri)))))
 
-(defn xhr-await
-  ([xhr] (xhr-await xhr 3))
-  ([xhr max-seconds]
+(defn send-unparsed-xhr
+  ([id uri] (send-unparsed-xhr id uri true))
+  ([id uri resolve?]
+   ((if resolve? xhr-await identity)
+     (send-xhr id uri
+               {:body-parser identity}))))
 
-   (cond
-     (xhr-response xhr)
-     (do (println :xhr-resolved (xhr-response xhr))
-         (println :xhr-resolved (xhrfo xhr))
-         xhr)
-
-     (> max-seconds 0)
-     #?(:clj  (do
-                (println :xhr-await-sleeping max-seconds (xhrfo xhr))
-                (Thread/sleep 1000)
-                (recur xhr (dec max-seconds)))
-        :cljs (js/setTimeout (fn [] (xhr-await xhr (dec max-seconds))) 1000))
-
-     :default (do (println :xhr-await-timeout! (xhrfo xhr))
-                  nil))))
-
-
+(defn synaptic-xhr-unparsed
+  ([id uri] (synaptic-xhr-unparsed id uri true))
+  ([id uri resolve?]
+   (let [xhr (with-synapse (id)
+                           (send-xhr id uri
+                                     {:body-parser identity}))]
+     (when (or (not resolve?)
+               (md-get xhr :response))
+       xhr))))
