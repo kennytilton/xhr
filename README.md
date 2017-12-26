@@ -7,7 +7,7 @@ A Clojure/Clojurescript library providing [Matrix](https://github.com/kennytilto
 
 ## Usage
 
-For now, please see the tests.
+For now, please see the tests, and even then it is a proof-of-concept slapdash glimpse of what will be after we start using the capability in anger.
 
 ## License
 
