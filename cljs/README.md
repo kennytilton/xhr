@@ -9,6 +9,8 @@ A Clojure/Clojurescript library providing [Matrix](https://github.com/kennytilto
 
 For now, please see the tests, and even then it is a proof-of-concept slapdash glimpse of what will be after we start using the capability in anger.
 
+Or you might glean a little from my amusing first experiences lifting XHRs into the Matrix.
+
 ## License
 
 Copyright © 2017 Kenneth Tilton
