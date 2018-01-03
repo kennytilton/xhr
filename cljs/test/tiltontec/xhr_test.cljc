@@ -73,7 +73,8 @@
       (is (.contains message "surch"))
       (prn :code code))))
 
-#_(let [uri ae-adderall]
+(def flickr "https://api.flickr.com/services/rest/?&method=flickr.people.getPublicPhotos&format=json&api_key=6f93d9bd5fef5831ec592f0b527fdeff&user_id=9395899@N08")
+#_(let [uri flickr]
     (client/get uri
                 {:async? true}
                 (fn [response]

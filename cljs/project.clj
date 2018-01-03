@@ -9,6 +9,7 @@
                  [cljs-http "0.1.44"]
                  [cljs-ajax "0.7.2"]
                  [cheshire "5.8.0"]
+                 [com.cognitect/transit-cljs "0.8.243"]
                  [se.haleby/stub-http "0.2.3"]
                  [com.taoensso/tufte "1.1.2"]
                  [com.tiltontec/matrix "0.1.0-SNAPSHOT"]]

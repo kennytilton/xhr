@@ -20,7 +20,7 @@
     <orderEntry type="library" name="Leiningen: cljs-http:0.1.44" level="project" />
     <orderEntry type="library" name="Leiningen: clojure-complete:0.2.4" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-clj:0.8.300" level="project" />
-    <orderEntry type="library" name="Leiningen: com.cognitect/transit-cljs:0.8.239" level="project" />
+    <orderEntry type="library" name="Leiningen: com.cognitect/transit-cljs:0.8.243" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-java:0.8.324" level="project" />
     <orderEntry type="library" name="Leiningen: com.cognitect/transit-js:0.8.846" level="project" />
     <orderEntry type="library" name="Leiningen: com.fasterxml.jackson.core/jackson-core:2.9.0" level="project" />

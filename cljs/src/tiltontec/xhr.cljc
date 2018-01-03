@@ -1,13 +1,16 @@
 (ns tiltontec.xhr
+  #?(:cljs (:require-macros [cljs.core.async.macros :refer [go]]))
   (:require
     [#?(:cljs cljs.pprint :clj clojure.pprint) :refer [pprint cl-format]]
 
     [tiltontec.util.core :refer [pln countit]]
 
     #?(:cljs [tiltontec.cell.base
-              :refer-macros [pcell un-stopped without-c-dependency cpr]
+              :refer-macros [pcell un-stopped without-c-dependency cpr
+                             with-cc]
 
               :refer [+pulse+ c-pulse c-optimized-away?
+                      mdead?
                       +client-q-handler+ c-stopped unbound
                       *within-integrity* *defer-changes*
                       *depender* caller-ensure]]
@@ -17,8 +20,13 @@
     #?(:cljs [tiltontec.cell.synapse
               :refer-macros [with-synapse]
               :refer []]
+       :clj [tiltontec.cell.synapse :refer :all])
+
+    #?(:cljs [tiltontec.cell.integrity
+              :refer-macros [with-cc with-integrity]
+              :refer []]
        :clj
-    [tiltontec.cell.synapse :refer :all])
+    [tiltontec.cell.integrity :refer :all])
 
     #?(:cljs [tiltontec.util.base
               :refer-macros [trx prog1 *trx?* def-rmap-slots]]
@@ -28,16 +36,10 @@
 
     ; cool------------------------
 
-    #?(:clj
-    [tiltontec.cell.observer :refer [fn-obs observe observe-by-type]]
+    #?(:clj [tiltontec.cell.observer :refer [fn-obs observe observe-by-type]]
        :cljs [tiltontec.cell.observer
               :refer-macros [fn-obs]
               :refer [observe observe-by-type]])
-
-    #?(:cljs [tiltontec.cell.integrity
-              :refer-macros [with-integrity]]
-       :clj
-    [tiltontec.cell.integrity :refer [with-integrity with-cc]])
 
     ;cool-----
 
@@ -61,64 +63,116 @@
        :cljs [cljs-http.client :as client])
 
     #?(:clj
-    [cheshire.core :refer :all])
-    )
-  )
+    [cheshire.core :refer :all]
+       :cljs [cognitect.transit :as t])
+
+    [clojure.walk :refer [keywordize-keys]]
+
+    #?(:cljs [cljs.core.async :refer [<!]])
+    ))
 
 (def +xhr-sid+ (atom -1))
 
 (defn xhr-init! []
   (reset! +xhr-sid+ -1))
 
+(defn parse-json$
+  ([j$] (parse-json$ j$ true))
+  ([j$ keywordize]
+    #?(:clj  (parse-string j$ keywordize)
+       :cljs (do
+               (let [r (t/reader :json)]
+                 ((if keywordize keywordize-keys identity)
+                   (t/read r j$)))))))
+
+
+
 #_(let [uri ae-adderall]
     (client/get uri
-                {:async? true}
-                (fn [response]
-                  (cpr :xhr-response!!! (:status response) (keys response) uri)
-                  (pprint (parse-string (:body response))))
-                (fn [exception]
-                  ;; (println :exc exception)
-                  (println :beankeys!! (keys (bean exception)))
-                  ;;(println :bean!! ) (pprint (bean exception))
-                  (println :status (:status (:data (bean exception)))
-                           :body (parse-string (:body (:data (bean exception))) true))
-                  (println "exception message is: " (.getMessage exception))
-                  (cpr :error!!!!!)
-                  )))
+      {:async? true}
+      (fn [response]
+        (cpr :xhr-response!!! (:status response) (keys response) uri)
+        (pprint (parse-json$ (:body response))))
+      (fn [exception]
+        ;; (println :exc exception)
+        (println :beankeys!! (keys (bean exception)))
+        ;;(println :bean!! ) (pprint (bean exception))
+        (println :status (:status (:data (bean exception)))
+                 :body (parse-json$ (:body (:data (bean exception)))))
+        (println "exception message is: " (.getMessage exception))
+        (cpr :error!!!!!)
+        )))
 
 (defn xhr-send [xhr]
   (let [uri (md-get xhr :uri)]
-    (cpr :xhr-send-sending uri)
+    (cpr :xhr-send-is-sending-uri uri)
 
     #?(:clj (client/get uri
-                        {:async? true}
-                        (fn [response]
-                          (cpr :xhr-response!!! (:id @xhr) (:status response) uri)
-                          (countit [:xhr :reponse])
-                          (if (mdead? xhr)
-                            (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))
-                            (do
-                              ;;(cpr :hitting-with-cc *within-integrity*)
-                              (with-cc :xhr-handler-sets-responded
+              {:async? true}
+              (fn [response]
+                (cpr :xhr-response!!! (:id @xhr) (:status response) uri)
+                (countit [:xhr :reponse])
+                (if (mdead? xhr)
+                  (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))
+                  (do
+                    ;;(cpr :hitting-with-cc *within-integrity*)
+                    (with-cc :xhr-handler-sets-responded
 
-                                       ;(cpr :xhr-handler-body)
-                                       ;;(cpr :xhr-handler-sets-responded (:status response) uri)
-                                       ;; (pprint (parse-string (:body response) true))
-                                       (md-reset! xhr :response {:status (:status response)
-                                                                 :body   ((:body-parser @xhr) (:body response))})))))
-                        (fn [exception]
-                          (countit [:xhr :exception])
-                          (cpr "xhr-send> raw exception" exception)
-                          (let [edata (:data (bean exception))]
+                      ;(cpr :xhr-handler-body)
+                      ;;(cpr :xhr-handler-sets-responded (:status response) uri)
+                      ;; (pprint (parse-json$ (:body response)))
+                      (md-reset! xhr :response {:status (:status response)
+                                                :body   ((:body-parser @xhr) (:body response))})))))
+              (fn [exception]
+                (countit [:xhr :exception])
+                (cpr "xhr-send> raw exception" exception)
+                (let [edata (:data (bean exception))]
 
-                            (cpr :xhr-exception!!! (:id @xhr) uri (:status edata) (parse-string (:body edata) true))
-                            ;;(pprint (bean exception))
-                            ;; (pprint (dissoc (bean exception) :stackTracexx))
-                            (when-not (mdead? xhr)
-                              (with-cc :xhr-handler-sets-error
-                                       ;; (cpr :xhr-handler-sets-error (:status edata)(parse-string (:body edata) true))
-                                       (md-reset! xhr :response {:status (:status edata)
-                                                                 :body   (parse-string (:body edata) true)})))))))))
+                  (cpr :xhr-exception!!! (:id @xhr) uri (:status edata) (parse-json$ (:body edata)))
+                  ;;(pprint (bean exception))
+                  ;; (pprint (dissoc (bean exception) :stackTracexx))
+                  (when-not (mdead? xhr)
+                    (with-cc :xhr-handler-sets-error
+                      ;; (cpr :xhr-handler-sets-error (:status edata)(parse-json$ (:body edata)))
+                      (md-reset! xhr :response {:status (:status edata)
+                                                :body   (parse-json$ (:body edata))}))))))
+
+       #_{:status (.getStatus target)
+        :success (.isSuccess target)
+        :body (.getResponse target)
+        :headers (util/parse-headers (.getAllResponseHeaders target))
+        :trace-redirects [request-url (.getLastUri target)]
+        :error-code (error-kw (.getLastErrorCode target))
+        :error-text (.getLastError target)}
+
+       :cljs (go (let [response (<! (client/get uri {:with-credentials? false}))]
+                   (if (:success response)
+                     (do
+                       (countit [:xhr :reponse])
+                       (prn :body (keys (:body response)))
+                       (prn :success (:status response)  (keys response) (count (:body response)))
+                       (if (mdead? xhr)
+                         (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))
+                         (with-cc :xhr-handler-sets-responded
+                           (js/setTimeout
+                             #(do
+                                (println :slept!!!!!!)
+                                (md-reset! xhr :response
+                                  {:status (:status response)
+                                   :body   ((:body-parser @xhr) (:body response))}))
+                             500))))
+
+                     (do
+                       (prn :NO-success :stat (:status response) :ecode (:error-code response)
+                            :etext (:error-text response))
+                       (cpr :xhr-response!!?! (:id @xhr) (:status response) uri)
+                       (countit [:xhr :reponse])
+                       (if (mdead? xhr)
+                         (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))
+                         (with-cc :xhr-handler-sets-responded
+                           (md-reset! xhr :response {:status (:status response)
+                                                     :body   [(:error-code response)
+                                                              (:error-text response)]}))))))))))
 
 (defn xhr-status [xhr]
   (or (:status (md-get xhr :response))
@@ -146,7 +200,7 @@
                     :uri uri
                     :response (c-in nil)
                     :select nil
-                    :body-parser (:body-parser attrs #(parse-string % true))
+                    :body-parser (:body-parser attrs #(#?(:clj parse-json$ :cljs identity) %))
                     :selection (c? (when-let [b (xhr-ok-body me)]
                                      ;; (pln :sel-sees-body!! (md-get me :select) b)
                                      (if-let [ks (md-get me :select)]
@@ -172,6 +226,7 @@
      :default (throw (#?(:cljs js/Error. :clj Exception.) (cl-format "~&send-xhr cannot discriminate params ~a and ~a" x y)))))
   ([name uri attrs]
    (countit :send-xhr)
+   (println :send-xhr!!!!! uri)
    (make-xhr uri (merge {:name name :send? true} attrs))))
 
 (defn xhr-response [xhr]
@@ -227,7 +282,7 @@
 
 ;;; --- utilities ----------------
 
-(defn xhr-status-key [xhr] ;; hunh? just a debug hack I think
+(defn xhr-status-key [xhr]                                  ;; hunh? just a debug hack I think
   (if-let [status (xhr-status xhr)]
     (case status
       200 :ok
@@ -251,7 +306,7 @@
 
    (cond
      (xhr-response xhr)
-     (do ;;(println :xhr-resolved (xhr-response xhr))
+     (do                                                    ;;(println :xhr-resolved (xhr-response xhr))
        (cpr :xhr-resolved (xhrfo xhr))
        xhr)
 
@@ -273,7 +328,7 @@
   ([id uri resolve?]
    ((if resolve? xhr-resolved identity)
      (with-synapse (id)
-                   (send-xhr id uri)))))
+       (send-xhr id uri)))))
 
 (defn send-unparsed-xhr
   ([id uri] (send-unparsed-xhr id uri true))
@@ -286,8 +341,8 @@
   ([id uri] (synaptic-xhr-unparsed id uri true))
   ([id uri resolve?]
    (let [xhr (with-synapse (id)
-                           (send-xhr id uri
-                                     {:body-parser identity}))]
+               (send-xhr id uri
+                         {:body-parser identity}))]
      (when (or (not resolve?)
                (md-get xhr :response))
        xhr))))
