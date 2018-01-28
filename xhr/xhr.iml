@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module cursive.leiningen.project.LeiningenProjectsManager.displayName="com.tiltontec/xhr:0.1.0-SNAPSHOT" cursive.leiningen.project.LeiningenProjectsManager.isLeinModule="true" type="JAVA_MODULE" version="4">
+<module cursive.leiningen.project.LeiningenProjectsManager.displayName="com.tiltontec/xhr:0.1.1-SNAPSHOT" cursive.leiningen.project.LeiningenProjectsManager.isLeinModule="true" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/classes" />
@@ -31,7 +31,7 @@
     <orderEntry type="library" name="Leiningen: com.taoensso/encore:2.92.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.taoensso/truss:1.5.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.taoensso/tufte:1.1.2" level="project" />
-    <orderEntry type="library" name="Leiningen: com.tiltontec/matrix:0.1.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Leiningen: com.tiltontec/matrix:0.1.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Leiningen: commons-codec:1.10" level="project" />
     <orderEntry type="library" name="Leiningen: commons-io:2.5" level="project" />
     <orderEntry type="library" name="Leiningen: commons-logging:1.2" level="project" />

@@ -10,12 +10,14 @@
                              with-cc]
 
               :refer [+pulse+ c-pulse c-optimized-away?
-                      mdead?
+                      mdead? md-ref?
                       +client-q-handler+ c-stopped unbound
                       *within-integrity* *defer-changes*
                       *depender* caller-ensure]]
        :clj
     [tiltontec.cell.base :refer :all])
+
+    [tiltontec.cell.evaluate :refer [not-to-be not-to-be-self]]
 
     #?(:cljs [tiltontec.cell.synapse
               :refer-macros [with-synapse]
@@ -95,7 +97,7 @@
         (pprint (parse-json$ (:body response))))
       (fn [exception]
         ;; (println :exc exception)
-        (println :beankeys!! (keys (bean exception)))
+        ;(println :beankeys!! (keys (bean exception)))
         ;;(println :bean!! ) (pprint (bean exception))
         (println :status (:status (:data (bean exception)))
                  :body (parse-json$ (:body (:data (bean exception)))))
@@ -105,22 +107,18 @@
 
 (defn xhr-send [xhr]
   (let [uri (md-get xhr :uri)]
-    (cpr :xhr-send-is-sending-uri uri)
+    ;;(cpr :xhr-send-is-sending-uri uri)
 
     #?(:clj (client/get uri
               {:async? true}
               (fn [response]
-                (cpr :xhr-response!!! (:id @xhr) (:status response) uri)
+                ;(cpr :xhr-response!!! (:id @xhr) (:status response) uri)
                 (countit [:xhr :reponse])
                 (if (mdead? xhr)
                   (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))
                   (do
                     ;;(cpr :hitting-with-cc *within-integrity*)
                     (with-cc :xhr-handler-sets-responded
-
-                      ;(cpr :xhr-handler-body)
-                      ;;(cpr :xhr-handler-sets-responded (:status response) uri)
-                      ;; (pprint (parse-json$ (:body response)))
                       (md-reset! xhr :response {:status (:status response)
                                                 :body   ((:body-parser @xhr) (:body response))})))))
               (fn [exception]
@@ -129,44 +127,32 @@
                 (let [edata (:data (bean exception))]
 
                   (cpr :xhr-exception!!! (:id @xhr) uri (:status edata) (parse-json$ (:body edata)))
-                  ;;(pprint (bean exception))
-                  ;; (pprint (dissoc (bean exception) :stackTracexx))
                   (when-not (mdead? xhr)
                     (with-cc :xhr-handler-sets-error
-                      ;; (cpr :xhr-handler-sets-error (:status edata)(parse-json$ (:body edata)))
                       (md-reset! xhr :response {:status (:status edata)
                                                 :body   (parse-json$ (:body edata))}))))))
-
-       #_{:status (.getStatus target)
-        :success (.isSuccess target)
-        :body (.getResponse target)
-        :headers (util/parse-headers (.getAllResponseHeaders target))
-        :trace-redirects [request-url (.getLastUri target)]
-        :error-code (error-kw (.getLastErrorCode target))
-        :error-text (.getLastError target)}
 
        :cljs (go (let [response (<! (client/get uri {:with-credentials? false}))]
                    (if (:success response)
                      (do
-                       (countit [:xhr :reponse])
-                       (prn :body (keys (:body response)))
-                       (prn :success (:status response)  (keys response) (count (:body response)))
+                       ;(prn :body (keys (:body response)))
+                       ;(prn :success (:status response)  (keys response) (count (:body response)))
                        (if (mdead? xhr)
                          (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))
                          (with-cc :xhr-handler-sets-responded
                            (js/setTimeout
                              #(do
-                                (println :slept!!!!!!)
+                                (when-let [d (:fake-delay @xhr)]
+                                  (println :fake-delayed!!!!!! d))
                                 (md-reset! xhr :response
                                   {:status (:status response)
                                    :body   ((:body-parser @xhr) (:body response))}))
-                             500))))
+                             (or (:fake-delay @xhr) 0)))))
 
                      (do
                        (prn :NO-success :stat (:status response) :ecode (:error-code response)
                             :etext (:error-text response))
-                       (cpr :xhr-response!!?! (:id @xhr) (:status response) uri)
-                       (countit [:xhr :reponse])
+
                        (if (mdead? xhr)
                          (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))
                          (with-cc :xhr-handler-sets-responded
@@ -207,10 +193,20 @@
                                        (select-keys b ks)
                                        b)))
                     (vec (apply concat (seq (dissoc attrs :send? :body-parser)))))]
-     ;;(cpr :made!!!!!!!!!!)
-     (when (:send? attrs)
+     (println :xhr-made!!!!!!!!!! uri)
+     #_ (when (:send? attrs)
        (xhr-send xhr))
      xhr)))
+
+(defmethod not-to-be [:tiltontec.xhr.core/xhr] [me]
+  ;; todo: worry about leaks
+  ;; (println :not-to-be-xhr!!!!!!! me)
+
+  (doseq [k (:kids @me)]
+    (when (md-ref? k)
+      (not-to-be k)))
+
+  (not-to-be-self me))
 
 (defn send-xhr
   ([uri]
@@ -226,7 +222,7 @@
      :default (throw (#?(:cljs js/Error. :clj Exception.) (cl-format "~&send-xhr cannot discriminate params ~a and ~a" x y)))))
   ([name uri attrs]
    (countit :send-xhr)
-   (println :send-xhr!!!!! uri)
+    (println :send-xhr!!!!! uri)
    (make-xhr uri (merge {:name name :send? true} attrs))))
 
 (defn xhr-response [xhr]
@@ -241,18 +237,23 @@
   (when (not= oldv unbound)
     ;; oldv unbound means initial build and this incremental add/remove
     ;; is needed only when kids change post initial creation
+    ;; todo flesh this out
+    (let [lost (clojure.set/difference (set oldv) (set newv))
+          gained (clojure.set/difference (set newv) (set oldv))]
 
-    #_;; hhack
-        (let [lost (clojure.set/difference (set oldv) (set newv))
-              gained (clojure.set/difference (set newv) (set oldv))]
-
-          (cond
-            (empty? gained)
+      (cond
+        (empty? gained)
             ;; just lose the lost
-            (do)
+        (do)
 
-            :default                                        ;; try to cancel?
-            (pln :ignoring-new-kid-xhrs!!!!!!! newv)))))
+        :default                                            ;; try to cancel?
+        (pln :ignoring-new-kid-xhrs!!!!!!! newv)))))
+
+(defmethod observe [:send? :tiltontec.xhr.core/xhr] [_ me newv oldv _]
+  (println :observing-xhr!!!! newv (:uri @me))
+  (when newv
+    (println :sending-xhr!!!!!!!!!!!!!)
+    (xhr-send me)))
 
 ;;; --- extraction to map --------
 
@@ -307,12 +308,12 @@
    (cond
      (xhr-response xhr)
      (do                                                    ;;(println :xhr-resolved (xhr-response xhr))
-       (cpr :xhr-resolved (xhrfo xhr))
+       ;;(cpr :xhr-resolved (xhrfo xhr))
        xhr)
 
      (> max-seconds 0)
      #?(:clj  (do
-                (cpr :xhr-await-sleeping-max max-seconds (xhrfo xhr))
+                (cpr :no-response-xhr-await-sleeping-max max-seconds (xhrfo xhr))
                 (Thread/sleep 1000)
                 (recur xhr (dec max-seconds)))
         :cljs (js/setTimeout

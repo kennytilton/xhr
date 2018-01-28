@@ -25,7 +25,7 @@
               :as md])
 
     [tiltontec.xhr
-     :refer [make-xhr send-xhr send-unparsed-xhr xhr-send xhr-await xhr-status
+     :refer [make-xhr send-xhr send-unparsed-xhr xhr-send xhr-await xhr-status xhr-response
              xhr-status-key xhr-resolved xhr-error xhr-error? xhrfo synaptic-xhr synaptic-xhr-unparsed
              xhr-selection xhr-to-map xhr-name-to-map]]
 
@@ -61,6 +61,33 @@
     (is (= 200 (xhr-status xhr)))
     (is (= 3 (count (:results (xhr-selection xhr)))))
     (let [ae (first (:results (xhr-selection xhr)))]
+      (pln :ae (keys ae))
+      (pprint (select-keys ae [:primarysourcecountry
+                               :transmissiondate
+                               :sender
+                               :companynumb
+                               :serious
+                               :occurcountry]))
+      (pprint (keys (:patient ae))))))
+
+(def ae-yabba "https://api.fda.gov/drug/event.json?search=patient.drug.openfda.brand_name:yabbadabba&limit=3")
+
+(deftest fda-yanks-ng
+  (cells-init)
+  (let [xhr (xhr-await (send-xhr ae-yabba))]
+    (is (= 404 (xhr-status xhr)))
+    (is (nil? (:results (xhr-selection xhr))))
+    (pln :ae )
+    (pprint @xhr)))
+
+(def rx-nav-test "https://rxnav.nlm.nih.gov/REST/interaction/interaction.json?rxcui=341248")
+
+(deftest nih-rxnav-ok
+  (cells-init)
+  (let [xhr (xhr-await (send-xhr rx-nav-test))]
+    (is (= 200 (xhr-status xhr)))
+    (pprint (:body (xhr-response xhr)))
+    (let [ae (first (:results (xhr-selection xhr)))]
       (pln :ae (keys ae)))))
 
 (deftest fda-adderall-syntax-error
@@ -76,19 +103,19 @@
 (def flickr "https://api.flickr.com/services/rest/?&method=flickr.people.getPublicPhotos&format=json&api_key=6f93d9bd5fef5831ec592f0b527fdeff&user_id=9395899@N08")
 #_(let [uri flickr]
     (client/get uri
-                {:async? true}
-                (fn [response]
-                  (cpr :xhr-response!!! (:status response) (keys response) uri)
-                  (pprint (parse-string (:body response))))
-                (fn [exception]
-                  ;; (println :exc exception)
-                  (println :beankeys!! (keys (bean exception)))
-                  ;;(println :bean!! ) (pprint (bean exception))
-                  (println :status (:status (:data (bean exception)))
-                           :body (parse-string (:body (:data (bean exception))) true))
+      {:async? true}
+      (fn [response]
+        (cpr :xhr-response!!! (:status response) (keys response) uri)
+        (pprint (parse-json# (:body response))))
+      (fn [exception]
+        ;; (println :exc exception)
+        (println :beankeys!! (keys (bean exception)))
+        ;;(println :bean!! ) (pprint (bean exception))
+        (println :status (:status (:data (bean exception)))
+                 :body (parse-json$ (:body (:data (bean exception))) true))
 
-                  (cpr :error!!!!!)
-                  )))
+        (cpr :error!!!!!)
+        )))
 
 (def ae-aldactone
   "https://api.fda.gov/drug/event.json?search=patient.drug.openfda.brand_name:aldactone&limit=1")
@@ -140,17 +167,17 @@
                 (countit :no-ndc)
                 #_(pprint drug))
               (make ::md/family
-                    :name :patient-drug
-                    :ndc ndc
-                    :drugindication (:drugindication drug)
-                    :medicinalproduct (:medicinalproduct drug)
-                    :kids (c? (the-kids
-                                (when ndc
-                                  (send-xhr :drug-label (cl-format nil drug-label ndc)))
-                                (when mfr-name
-                                  (send-xhr :mfr-recall (cl-format nil mfr-recalls
-                                                                   (str/replace mfr-name #"[',\.]" "")
-                                                                   1)))))))))))
+                :name :patient-drug
+                :ndc ndc
+                :drugindication (:drugindication drug)
+                :medicinalproduct (:medicinalproduct drug)
+                :kids (c? (the-kids
+                            (when ndc
+                              (send-xhr :drug-label (cl-format nil drug-label ndc)))
+                            (when mfr-name
+                              (send-xhr :mfr-recall (cl-format nil mfr-recalls
+                                                               (str/replace mfr-name #"[',\.]" "")
+                                                               1)))))))))))
 
 
 (deftest fda-adverse-lite
@@ -169,12 +196,12 @@
                                     (the-kids
                                       (for [ae aes]
                                         (make ::md/family
-                                              :name :adverse-event
-                                              :ae (select-keys ae [:transmissiondate
-                                                                   :sender
-                                                                   :serious])
-                                              :patient (dissoc (:patient ae) :drug)
-                                              :kids (patient-drugs ae))))))})]
+                                          :name :adverse-event
+                                          :ae (select-keys ae [:transmissiondate
+                                                               :sender
+                                                               :serious])
+                                          :patient (dissoc (:patient ae) :drug)
+                                          :kids (patient-drugs ae))))))})]
 
 
     (when (xhr-await top)
@@ -300,7 +327,7 @@
                   (prn :checking-google)
 
                   (let [google (with-synapse (:s-goog)
-                                             (xhr-html "http://google.com"))]
+                                 (xhr-html "http://google.com"))]
                     (when-let [resp (md-get google :response)]
                       (println :got-google-response!!! resp)
 
@@ -325,12 +352,12 @@
                                        (is (every? #(= :responded (xhr-status-key %)) new))))]
 
                        (when-let [google (xhr-await (with-synapse (:s-goog)
-                                                                  (xhr-html "http://google.com")))]
+                                                      (xhr-html "http://google.com")))]
 
                          (when-let [yahoo (xhr-await (with-synapse (:s-yahoo)
-                                                                   (xhr-html "http://yahoo.com")))]
+                                                       (xhr-html "http://yahoo.com")))]
                            (when-let [youtube (xhr-await (with-synapse (:s-tube)
-                                                                       (xhr-html "http://youtube.com")))]
+                                                           (xhr-html "http://youtube.com")))]
                              (cpr :youtube! (xhrfo youtube))
                              (list google yahoo youtube)))))]
     ;; cf-await means cell-formulaic await. Although the body above shows xhr-wait, that
@@ -349,7 +376,7 @@
   (cells-init)
   (let [sites (do ["http://google.com" "http://yahoo.com" "http://youtube.com"])
         xhrs-cell (c? (when-let [xhrs (with-synapse (:make-xhrs [])
-                                                    (map xhr-html sites))]
+                                        (map xhr-html sites))]
                         (when (every? #(some #{(xhr-status-key %)} [:ok :error]) xhrs)
                           xhrs)))]
     (let [r (cf-await xhrs-cell)]
@@ -368,7 +395,7 @@
     (letfn [(cx-if-else [goog-uri]
               (c? (cpr :runnning!!!)
                   (when-let [google (with-synapse (:s-goog)
-                                                  (send-unparsed-xhr :s-goog "http://google.com" false))]
+                                      (send-unparsed-xhr :s-goog "http://google.com" false))]
                     (cpr :got-goog??? google)
                     (when (md-get google :response)
                       (cpr :got-goog!!! (xhrfo google))
@@ -386,13 +413,12 @@
             (is (= 2 (count r)))
             (is (some #(.contains (md-get % :uri) "google") r))
             (is (some #(.contains (md-get % :uri) "youtube") r)))))
-      #_
-          (let [cx-ok (cx-if-else "http://googlexxxxxx.com")]
-            (let [r (cf-await cx-ok)]
-              (is (not (nil? r)))
-              (when r
-                (is (= 1 (count r)))
-                (is (some #(.contains (md-get % :uri) "yahoo") r))))))))
+      #_(let [cx-ok (cx-if-else "http://googlexxxxxx.com")]
+          (let [r (cf-await cx-ok)]
+            (is (not (nil? r)))
+            (when r
+              (is (= 1 (count r)))
+              (is (some #(.contains (md-get % :uri) "yahoo") r))))))))
 
 (deftest xhr-send-group-get-as-received
   ;; kick off  requests and return them one at a time in order received.
@@ -401,7 +427,7 @@
         responses (atom [])
         h (let [open-xhrs (atom nil)]
             (c? (let [xhrs (with-synapse (:make-xhrs)
-                                         (reset! open-xhrs (set (map #(send-unparsed-xhr :group % false) sites))))
+                             (reset! open-xhrs (set (map #(send-unparsed-xhr :group % false) sites))))
                       done (filter #(when (md-get % :response) %) @open-xhrs)]
                   (when (seq done)
                     (assert (= 1 (count done)) (str "done count NG:" (count done)))
@@ -422,19 +448,19 @@
 (deftest xhr-tree-simple
   (binding [*plnk-keys* [:xhr]]
     (let [top (make-xhr "http://google.com"
-                        {:send? false
+                        {:send?       false
                          :body-parser identity
-                         :kids  (c? (cpr :kidrule!!!!!!)
-                                    (when-let [parent (md-get me :response)]
-                                      (the-kids
-                                        (make-xhr "http://yahoo.com"
-                                                  {:par   me
-                                                   :send? true
-                                                   :body-parser identity})
-                                        (make-xhr "http://youtube.com"
-                                                  {:par   me
-                                                   :send? true
-                                                   :body-parser identity}))))})]
+                         :kids        (c? (cpr :kidrule!!!!!!)
+                                          (when-let [parent (md-get me :response)]
+                                            (the-kids
+                                              (make-xhr "http://yahoo.com"
+                                                        {:par         me
+                                                         :send?       true
+                                                         :body-parser identity})
+                                              (make-xhr "http://youtube.com"
+                                                        {:par         me
+                                                         :send?       true
+                                                         :body-parser identity}))))})]
 
       (xhr-send top)
       (when (xhr-await top)
@@ -492,8 +518,8 @@
    (loop [x 0]
      (let [r (c-get c)]
        (cond
-         r (do ;;(print :bingor r)
-               r)
+         r (do                                              ;;(print :bingor r)
+             r)
          (< x 10) (do
                     ;;(println :cf-awaitsleeping x)
                     (Thread/sleep 1000)
