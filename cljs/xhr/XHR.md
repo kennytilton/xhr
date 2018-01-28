@@ -37,25 +37,23 @@ Let us then begin our attempt to resolve CBH with a matrix version of an XHR:
     :uri uri
     :response (c-in nil))))))
 ````
-Oh, cool. We need only one* XHR property backed by a Cell, the `response`. Our plan is to pack the entire response (or error) into that property when the Ajax request completes. Look for `md-reset!`, the dataflow trigger function: 
+Oh, cool. We need only one* XHR property backed by a Cell, the `response`. Our plan is to pack the entire response (or error) into that property when the Ajax request completes. Look for `mset!>`, the dataflow trigger function: 
 ````
 (defn xhr-send [xhr]
-  (let [uri (md-get xhr :uri)]
-  
-    ;; dispatch the actual XHR....
-    (client/get (md-get xhr :uri)
-      {:async? true}
+  ;; dispatch the actual XHR....
+  (client/get (<mget xhr :uri)
+     {:async? true}
       
-      ;; when the remote resource answers, trigger a matrix dataflow with the response...
-      (fn [response]
-        (md-reset! xhr :response {:status (:status response)
-                                  :body   (parse-string (:body response) true)}))
+     ;; when the remote resource answers, trigger a matrix dataflow with the response...
+     (fn [response]
+        (mset!> xhr :response {:status (:status response)
+                               :body   (parse-string (:body response) true)}))
                                   
-      ;; or exception
-      (fn [exception]
+     ;; or exception
+     (fn [exception]
         (let [error-data (:data (bean exception))]
-          (md-reset! xhr :response {:status (:status error-data)
-                                    :body   (parse-string (:body error-data) true)}))))))
+          (mset!. xhr :response {:status (:status error-data)
+                                 :body   (parse-string (:body error-data) true)})))))
 ````
 Great. Now XHRs are active players in the matrix, asynchronously driving its proven, glitch-free data recalculation engine as responses or exceptions come back. A view can own an XHR in one property and have a second HTML property that says (where anaphor `me` is the view) `(when-let response (md-get (:xhr me) :response)...)` and magically emit HTML when the response gets set. Yeah.
 
