@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fe79443d-760f-4cb3-9baf-df6af47899dd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tiltontec/xhr.cljc" afterPath="$PROJECT_DIR$/src/tiltontec/xhr.cljc" />
-    </list>
+    <list default="true" id="5135d11c-4477-45d6-bd83-15c94c120edb" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,64 +11,41 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="xhr.cljc" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="196" column="8" lean-forward="false" selection-start-line="196" selection-start-column="8" selection-end-line="196" selection-end-column="8" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="client.clj" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/clj-http/clj-http/3.7.0/clj-http-3.7.0.jar!/clj_http/client.clj">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17595">
-              <caret line="1173" column="7" lean-forward="false" selection-start-line="1173" selection-start-column="7" selection-end-line="1173" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="xhr_test.cljc" pinned="false" current-in-tab="false">
+      <file leaf-file-name="xhr_test.cljc" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="70" column="38" lean-forward="false" selection-start-line="70" selection-start-column="38" selection-end-line="70" selection-end-column="38" />
+            <state relative-caret-position="308">
+              <caret line="533" column="76" lean-forward="true" selection-start-line="533" selection-start-column="76" selection-end-line="533" selection-end-column="76" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="XHR.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/XHR.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="765">
-                <caret line="51" column="43" lean-forward="false" selection-start-line="51" selection-start-column="43" selection-end-line="51" selection-end-column="43" />
-                <folding />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="project.clj" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project.clj">
+      <file leaf-file-name="base.cljc" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/com/tiltontec/matrix/0.1.1-SNAPSHOT/matrix-0.1.1-SNAPSHOT.jar!/tiltontec/cell/base.cljc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
+            <state relative-caret-position="274">
+              <caret line="70" column="10" lean-forward="false" selection-start-line="70" selection-start-column="10" selection-end-line="70" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_runner.cljs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
+      <file leaf-file-name="core.cljc" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/com/tiltontec/matrix/0.1.1-SNAPSHOT/matrix-0.1.1-SNAPSHOT.jar!/tiltontec/model/core.cljc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="274">
+              <caret line="99" column="6" lean-forward="false" selection-start-line="99" selection-start-column="6" selection-end-line="99" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="xhr.cljc" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="671">
+              <caret line="330" column="25" lean-forward="false" selection-start-line="307" selection-start-column="0" selection-end-line="330" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -80,30 +55,27 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>:bingo</find>
-      <find>github</find>
-      <find>parse-json$</find>
-      <find>body-parser</find>
-      <find>patient-drugs</find>
-      <find>xhr-response</find>
-      <find>with-cc</find>
-      <find>parse-string</find>
-      <find>not-to-be</find>
-      <find>md-ref?</find>
-      <find>send-xhr!</find>
-      <find>:xhr-await-sleeping-max</find>
-      <find>slept</find>
+      <find>xhr.core</find>
+      <find>md-making</find>
+      <find>example.com</find>
+      <find>await-sleeping</find>
+      <find>now</find>
+      <find>:xhr-send-is-sending-uri</find>
+      <find>:no-response-xhr-await-sleeping-max</find>
+      <find>oops</find>
+      <find>-type</find>
+      <find>&lt;cget</find>
+      <find>family</find>
+      <find>xhr</find>
     </findStrings>
     <replaceStrings>
-      <replace>parse-json$</replace>
+      <replace>xhr</replace>
+      <replace>fn</replace>
     </replaceStrings>
     <dirStrings>
+      <dir>$PROJECT_DIR$</dir>
       <dir>$PROJECT_DIR$/src</dir>
-      <dir>$PROJECT_DIR$/test</dir>
     </dirStrings>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -113,19 +85,18 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/project.clj" />
-        <option value="$PROJECT_DIR$/test/tiltontec/xhr_test.cljc" />
+        <option value="$PROJECT_DIR$/checkouts/matrix/src/tiltontec/cell/observer.cljc" />
         <option value="$PROJECT_DIR$/src/tiltontec/xhr.cljc" />
+        <option value="$PROJECT_DIR$/test/tiltontec/xhr_test.cljc" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="179" />
-    <option name="y" value="72" />
-    <option name="width" value="1501" />
-    <option name="height" value="841" />
+    <option name="x" value="139" />
+    <option name="y" value="105" />
+    <option name="width" value="1494" />
+    <option name="height" value="922" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -141,58 +112,48 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="cljs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cljs" type="462c0819:PsiDirectoryNode" />
+              <item name="xhr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xhr" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="cljs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cljs" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cljs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cljs" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cljs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cljs" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="tiltontec" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="cljs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cljs" type="462c0819:PsiDirectoryNode" />
+              <item name="xhr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xhr" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="cljs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="cljs" type="462c0819:PsiDirectoryNode" />
+              <item name="xhr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xhr" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="tiltontec" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="xhr" type="b2602c69:ProjectViewProjectNode" />
+              <item name="xhr" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="cbhell.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.build" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="ReplState" timestamp="1515789433583">{:repl-history {:ide [], :local [{:command &quot;(deftest fda-adderall-ok\n  (cells-init)\n  (let [xhr (xhr-await (send-xhr ae-adderall))]\n    (is (= 200 (xhr-status xhr)))\n    (is (= 3 (count (:results (xhr-selection xhr)))))\n    (let [ae (first (:results (xhr-selection xhr)))]\n      (pln :ae (keys ae)))))&quot;, :offset 257, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(def flickr \&quot;https://api.flickr.com/services/rest/?&amp;method=flickr.people.getPublicPhotos&amp;format=json&amp;api_key=6f93d9bd5fef5831ec592f0b527fdeff&amp;user_id=9395899@N08\&quot;)&quot;, :offset 163, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(let [uri flickr]\n    (client/get uri\n                {:async? true}\n                (fn [response]\n                  (cpr :xhr-response!!! (:status response) (keys response) uri)\n                  (pprint (parse-string (:body response))))\n                (fn [exception]\n                  ;; (println :exc exception)\n                  (println :beankeys!! (keys (bean exception)))\n                  ;;(println :bean!! ) (pprint (bean exception))\n                  (println :status (:status (:data (bean exception)))\n                           :body (parse-string (:body (:data (bean exception))) true))\n\n                  (cpr :error!!!!!)\n                  )))&quot;, :offset 662, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(def rx-nav-test \&quot;https://rxnav.nlm.nih.gov/REST/interaction/interaction.json?rxcui=341248\&quot;)&quot;, :offset 92, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest nih-rxnav-ok\n  (cells-init)\n  (let [xhr (xhr-await (send-xhr rx-nav-test))]\n    (is (= 200 (xhr-status xhr)))\n    (is (= 3 (count (:results (xhr-selection xhr)))))\n    (let [ae (first (:results (xhr-selection xhr)))]\n      (pln :ae (keys ae)))))&quot;, :offset 254, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest fda-adderall-ok\n  (cells-init)\n  (let [xhr (xhr-await (send-xhr ae-adderall))]\n    (is (= 200 (xhr-status xhr)))\n    (is (= 3 (count (:results (xhr-selection xhr)))))\n    (let [ae (first (:results (xhr-selection xhr)))]\n      (pln :ae (keys ae))\n      (pprint (select-keys ae [:primarysourcecountry\n                               :transmissiondate])))))&quot;, :offset 362, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;nynumb&quot;, :offset 6, :ns &quot;user&quot;}], :remote []}}</component>
+  <component name="ReplState" timestamp="1517397441419">{:repl-history {:ide [], :local [{:command &quot;(defn xhr-await\n  ([xhr] (xhr-await xhr 3))\n  ([xhr max-seconds]\n\n   (cond\n     (xhr-response xhr)\n     (do                                                    ;;(println :xhr-resolved (xhr-response xhr))\n       ;;(cpr :xhr-resolved (xhrfo xhr))\n       xhr)\n\n     (&gt; max-seconds 0)\n     #?(:clj  (do\n                (cpr :no-response-xhr-await-sleeping-max max-seconds (xhrfo xhr))\n                (Thread/sleep 1000)\n                (recur xhr (dec max-seconds)))\n        :cljs (js/setTimeout\n                (fn []\n                  (cpr :xhr-await-sleeping-max max-seconds (xhrfo xhr))\n                  (xhr-await xhr (dec max-seconds))) 1000))\n\n     :default (do (println :xhr-await-timeout! max-seconds (xhrfo xhr))\n                  xhr))))&quot;, :offset 746, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(ns tiltontec.xhr\n  #?(:cljs (:require-macros [cljs.core.async.macros :refer [go]]))\n  (:require\n    [#?(:cljs cljs.pprint :clj clojure.pprint) :refer [pprint cl-format]]\n\n    [tiltontec.util.core :refer [pln countit]]\n\n    #?(:cljs [tiltontec.cell.base\n              :refer-macros [pcell un-stopped without-c-dependency cpr\n                             with-cc]\n\n              :refer [+pulse+ c-pulse c-optimized-away?\n                      mdead? md-ref?\n                      +client-q-handler+ c-stopped unbound\n                      *within-integrity* *defer-changes*\n                      *depender* caller-ensure]]\n       :clj\n    [tiltontec.cell.base :refer :all])\n\n    [tiltontec.cell.evaluate :refer [not-to-be not-to-be-self]]\n\n    #?(:cljs [tiltontec.cell.synapse\n              :refer-macros [with-synapse]\n              :refer []]\n       :clj [tiltontec.cell.synapse :refer :all])\n\n    #?(:cljs [tiltontec.cell.integrity\n              :refer-macros [with-cc with-integrity]\n              :refer []]\n       :clj\n    [tiltontec.cell.integrity :refer :all])\n\n    #?(:cljs [tiltontec.util.base\n              :refer-macros [trx prog1 *trx?* def-rmap-slots]]\n       :clj\n    [tiltontec.util.base\n     :refer :all])\n\n    ; cool------------------------\n\n    #?(:clj [tiltontec.cell.observer :refer [fn-obs observe observe-by-type type-cljc]]\n       :cljs [tiltontec.cell.observer\n              :refer-macros [fn-obs]\n              :refer [observe observe-by-type type-cljc]])\n\n    ;cool-----\n\n    #?(:clj\n    [tiltontec.cell.core :refer :all]\n       :cljs [tiltontec.cell.core\n              :refer-macros [c? c?+ c_? c?_]\n              :refer [c-in c-reset! make-c-formula ]])\n\n    [tiltontec.model.core\n     :refer-macros [the-kids mdv!]\n     :refer [md-get fasc fm! make md-reset! backdoor-reset!\n             mx-par]\n     :as md]\n\n    ;cool------\n\n\n    #?(:clj\n    [clj-http.client :as client]\n       :cljs [cljs-http.client :as client])\n\n    #?(:clj\n    [cheshire.core :refer :all]\n       :cljs [cognitect.transit :as t])\n\n    [clojure.walk :refer [keywordize-keys]]\n\n    #?(:cljs [cljs.core.async :refer [&lt;!]])\n    ))&quot;, :offset 2127, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(defn make-xhr\n  ([uri]\n   (make-xhr uri {}))\n\n  ([uri attrs]\n   (assert (string? uri) (str \&quot;param uri &lt;\&quot; uri \&quot;&gt; not a string\&quot;))\n   (let [xhr (apply make\n                    :type :tiltontec.xhr/xhr\n                    :id (swap! +xhr-sid+ inc)               ;; debug aid\n                    :uri uri\n                    :response (c-in nil)\n                    :select nil\n                    :body-parser (:body-parser attrs #(#?(:clj parse-json$ :cljs identity) %))\n                    :selection (c? (when-let [b (xhr-ok-body me)]\n                                     ;; (pln :sel-sees-body!! (md-get me :select) b)\n                                     (if-let [ks (md-get me :select)]\n                                       (select-keys b ks)\n                                       b)))\n                    (vec (apply concat (seq (dissoc attrs :send? :body-parser)))))]\n     (println :xhr-made!!!!!!!!!! uri (type-cljc xhr))\n     #_ (when (:send? attrs)\n       (xhr-send xhr))\n     xhr)))&quot;, :offset 994, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(deftest fda-adderall-ok\n  (cells-init)\n  (let [xhr (xhr-await (make-xhr ae-adderall {:send? true}))]\n    (assert xhr)\n    (is (= 200 (xhr-status xhr)))\n    (is (= 3 (count (:results (xhr-selection xhr)))))\n    (let [ae (first (:results (xhr-selection xhr)))]\n      (pln :ae (keys ae))\n      (pprint (select-keys ae [:primarysourcecountry\n                               :transmissiondate\n                               :sender\n                               :companynumb\n                               :serious\n                               :occurcountry]))\n      (pprint (keys (:patient ae))))))&quot;, :offset 597, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(defn make-xhr\n  ([uri]\n   (make-xhr uri {}))\n\n  ([uri attrs]\n   (assert (string? uri) (str \&quot;param uri &lt;\&quot; uri \&quot;&gt; not a string\&quot;))\n   (let [xhr (apply make\n                    :type :tiltontec.xhr/xhr\n                    :id (swap! +xhr-sid+ inc)               ;; debug aid\n                    :uri uri\n                    :response (c-in nil)\n                    :select nil\n                    :body-parser (:body-parser attrs #(#?(:clj parse-json$ :cljs identity) %))\n                    :selection (c? (when-let [b (xhr-ok-body me)]\n                                     ;; (pln :sel-sees-body!! (md-get me :select) b)\n                                     (if-let [ks (md-get me :select)]\n                                       (select-keys b ks)\n                                       b)))\n                    (vec (apply concat (seq (dissoc attrs #_ :send? :body-parser)))))]\n     (println :xhr-made!!!!!!!!!! uri (type-cljc xhr))\n     #_ (when (:send? attrs)\n       (xhr-send xhr))\n     xhr)))&quot;, :offset 997, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(defmethod observe [:send? :tiltontec.xhr/xhr] [_ me newv oldv _]\n  ;; (println :observing-xhr!!!! newv (:uri @me))\n  (when newv\n    (println :send?-observer-sending-xhr!!!!!!!!!!!!!)\n    (xhr-send me)))&quot;, :offset 203, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(defmethod observe [:kids :tiltontec.xhr/xhr] [_ me newv oldv _]\n  ;;\n  (when (not= oldv unbound)\n    ;; oldv unbound means initial build and this incremental add/remove\n    ;; is needed only when kids change post initial creation\n    ;; todo flesh this out\n    (let [lost (clojure.set/difference (set oldv) (set newv))\n          gained (clojure.set/difference (set newv) (set oldv))]\n\n      (cond\n        (empty? gained)\n            ;; just lose the lost\n        (do)\n\n        :default                                            ;; try to cancel?\n        (pln :ignoring-new-kid-xhrs!!!!!!! newv)))))&quot;, :offset 600, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(deftest fda-adderall-ok\n  (cells-init)\n  (let [xhr (xhr-await (make-xhr ae-adderall {:send? (c-in true)}))]\n    (assert xhr)\n    (is (= 200 (xhr-status xhr)))\n    (is (= 3 (count (:results (xhr-selection xhr)))))\n    (let [ae (first (:results (xhr-selection xhr)))]\n      ;;(pln :ae!!! (keys ae))\n      (pprint (select-keys ae [:primarysourcecountry\n                               :transmissiondate\n                               :sender\n                               :companynumb\n                               :serious\n                               :occurcountry]))\n      (pprint (keys (:patient ae))))))&quot;, :offset 609, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest fda-yanks-ng\n  (cells-init)\n  (let [xhr (xhr-await (make-xhr ae-yabba))]\n    (is (= 404 (xhr-status xhr)))\n    (is (nil? (:results (xhr-selection xhr))))\n    (pln :ae )\n    (pprint @xhr)))&quot;, :offset 197, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(defn xhr-dummy [options]\n  (make-xhr \&quot;http://example.com\&quot;\n    {:body-parser (fn [b]\n                    (when-let [lat (:latency options)]\n                      (println :latting lat)\n                      (Thread/sleep lat))\n                    (:response options))}))&quot;, :offset 270, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(def xt (atom {:send-time nil}))&quot;, :offset 32, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(defn now []\n  #?(:clj (System/currentTimeMillis)\n     :cljs (.getTime (js/Date.))))&quot;, :offset 84, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(swap! xt update-in :send-time (now))&quot;, :offset 37, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(update {:a 0} :a 42)&quot;, :offset 21, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(update-in {:a 0} [:a] 42)&quot;, :offset 26, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(swap! xt update :send-time assoc (now))&quot;, :offset 40, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(swap! xt assoc :send-time  (now))&quot;, :offset 34, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(defn xhr-await\n  ([xhr] (xhr-await xhr 3))\n  ([xhr max-seconds]\n   (assert (:send-time @xhr) \&quot;XHR never sent\&quot;)\n   (cond\n     (xhr-response xhr)\n     (do                                                    ;;(println :xhr-resolved (xhr-response xhr))\n       ;;(cpr :xhr-resolved (xhrfo xhr))\n       xhr)\n\n     (&gt; max-seconds 0)\n     #?(:clj  (do\n                (cpr :no-response-xhr-await-sleeping-max max-seconds (xhrfo xhr))\n                (Thread/sleep 1000)\n                (recur xhr (dec max-seconds)))\n        :cljs (js/setTimeout\n                (fn []\n                  (cpr :xhr-await-sleeping-max max-seconds (xhrfo xhr))\n                  (xhr-await xhr (dec max-seconds))) 1000))\n\n     :default (do (println :xhr-await-timeout! max-seconds (xhrfo xhr))\n                  xhr))))&quot;, :offset 792, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(deftest xhr-reactx\n  ;; \&quot;responseA\&quot; &lt;- f1\n  ;; 100 &lt;- f2\n  ;; f3 &lt;- f1\n  ;; f4,f5 &lt;- f2\n  ;; ff &lt;- f3, f4, f5\n  (let [f1 (xhr-dummy\n             {:id       :service-a\n              :latency  100\n              :response \&quot;responseA\&quot;})]\n    (xhr-await f1)\n    (is = (xhr-response \&quot;responseA\&quot;)))\n  )&quot;, :offset 296, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(defn xhr-dummy [options]\n  (make-xhr \&quot;http://example.com\&quot;\n    {:send? true?\n     :body-parser (fn [b]\n                    (when-let [lat (:latency options)]\n                      (println :latting lat)\n                      (Thread/sleep lat))\n                    (:response options))}))&quot;, :offset 288, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(defn xhr-send [xhr]\n  (let [uri (md-get xhr :uri)]\n    (cpr :xhr-send-is-sending-uri uri)\n    (#?(:clj alter :cljs swap!) xhr assoc :send-time (now))\n\n    #?(:clj (client/get uri\n              {:async? true}\n              (fn [response]\n                ;(cpr :xhr-response!!! (:id @xhr) (:status response) uri)\n                (countit [:xhr :reponse])\n                (if (mdead? xhr)\n                  (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))\n                  (do\n                    ;;(cpr :hitting-with-cc *within-integrity*)\n                    (with-cc :xhr-handler-sets-responded\n                      (md-reset! xhr :response {:status (:status response)\n                                                :body   ((:body-parser @xhr) (:body response))})))))\n              (fn [exception]\n                (countit [:xhr :exception])\n                (cpr \&quot;xhr-send&gt; raw exception\&quot; exception)\n                (let [edata (:data (bean exception))]\n\n                  (cpr :xhr-exception!!! (:id @xhr) uri (:status edata) (parse-json$ (:body edata)))\n                  (when-not (mdead? xhr)\n                    (with-cc :xhr-handler-sets-error\n                      (md-reset! xhr :response {:status (:status edata)\n                                                :body   (parse-json$ (:body edata))}))))))\n\n       :cljs (go (let [response (&lt;! (client/get uri {:with-credentials? false}))]\n                   (if (:success response)\n                     (do\n                       ;(prn :body (keys (:body response)))\n                       ;(prn :success (:status response)  (keys response) (count (:body response)))\n                       (if (mdead? xhr)\n                         (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))\n                         (with-cc :xhr-handler-sets-responded\n                           (js/setTimeout\n                             #(do\n                                (when-let [d (:fake-delay @xhr)]\n                                  (println :fake-delayed!!!!!! d))\n                                (md-reset! xhr :response\n                                  {:status (:status response)\n                                   :body   ((:body-parser @xhr) (:body response))}))\n                             (or (:fake-delay @xhr) 0)))))\n\n                     (do\n                       (prn :NO-success :stat (:status response) :ecode (:error-code response)\n                            :etext (:error-text response))\n\n                       (if (mdead? xhr)\n                         (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))\n                         (with-cc :xhr-handler-sets-responded\n                           (md-reset! xhr :response {:status (:status response)\n                                                     :body   [(:error-code response)\n                                                              (:error-text response)]}))))))))))&quot;, :offset 2927, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(defn xhr-dummy [options]\n  (make-xhr \&quot;http://example.com\&quot;\n    {:send? true?\n     :body-parser (fn [b]\n                    (when-let [lat (:latency options)]\n                      (println :latting lat)\n                      (Thread/sleep lat))\n                    (let [r (:response options)]\n                      (if (fn? r)\n                        (r (:params options))\n                        r)))}))&quot;, :offset 405, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(defn xhr-dummy [options]\n  (make-xhr \&quot;http://example.com\&quot;\n    {:send? true?\n     :body-parser (fn [b]\n                    (when-let [lat (:latency options)]\n                      (println :latting lat)\n                      (Thread/sleep lat))\n                    (let [r (:response options)]\n                      (println :opts!!!!! options)\n                      (if (fn? r)\n                        (r (:params options))\n                        r)))}))&quot;, :offset 456, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest xhr-reactx-oops\n  ;; \&quot;responseA\&quot; &lt;- f1\n  ;; 100 &lt;- f2\n  ;; f3 &lt;- f1\n  ;; f4,f5 &lt;- f2\n  ;; ff &lt;- f3, f4, f5\n  (let [f1 (xhr-dummy\n             {:id       :service-a\n              :latency  100\n              :response \&quot;responseA\&quot;})\n        f3 (xhr-dummy\n             {:id :service-c\n              :params {:f1 (:body (xhr-response f1))}\n              :latency 60\n              :response #(str \&quot;responseB-\&quot; (:f1 %))})]\n    (xhr-await f1)\n    (is (= (:body (xhr-response f1)) \&quot;responseA\&quot;))\n    (println :wtf (:body (xhr-response f3)))\n    (is (not (= (:body (xhr-response f3)) \&quot;responseB-responseA\&quot;))))\n  )&quot;, :offset 611, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest xhr-reactx-oops\n  ;; \&quot;responseA\&quot; &lt;- f1\n  ;; 100 &lt;- f2\n  ;; f3 &lt;- f1\n  ;; f4,f5 &lt;- f2\n  ;; ff &lt;- f3, f4, f5\n  (let [f1 (xhr-dummy\n             {:id       :service-a\n              :latency  100\n              :response \&quot;responseA\&quot;})\n        f3 (xhr-dummy\n             {:id :service-c\n              :params {:f1 (:body (xhr-response f1))}\n              :latency 60\n              :response #(str \&quot;responseB-\&quot; (:f1 %))})]\n    (xhr-await f1)\n    (is (= (:body (xhr-response f1)) \&quot;responseA\&quot;))\n    (println :wtf (:body (xhr-response f3)))\n    ;;(is (not (= (:body (xhr-response f3)) \&quot;responseB-responseA\&quot;))))\n  ))&quot;, :offset 614, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest xhr-reactx-oops\n  ;; oops. f1 not populated when response sampled for f3. duh.\n  (let [f1 (xhr-dummy\n             {:id       :service-a\n              :latency  100\n              :response \&quot;responseA\&quot;})\n        f3 (c? (when-let [r1 (:body (xhr-response f1))]\n                 (xhr-dummy\n             {:id :service-c\n              :params {:f1 r1}\n              :latency 60\n              :response #(str \&quot;responseB-\&quot; (:f1 %))})))]\n    (xhr-await f3)\n    (is (= (:body (xhr-response f1)) \&quot;responseA\&quot;))\n    ;(println :wtf (:body (xhr-response f3)))\n    (is (= (:body (xhr-response f3)) \&quot;responseB-responseA\&quot;))\n  ))&quot;, :offset 619, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest xhr-reactx-oops\n  ;; oops. f1 not populated when response sampled for f3. duh.\n  (let [f1 (xhr-dummy\n             {:id       :service-a\n              :latency  100\n              :response \&quot;responseA\&quot;})\n        f2 (xhr-dummy\n             {:id       :service-b\n              :latency  40\n              :response 100})\n\n        f3 (c? (when-let [r1 (:body (xhr-response f1))]\n                 (println :dispatching-f3!!!!!!!!!!!)\n                 (xhr-dummy\n                   {:id       :service-c\n                    :params   {:f1 r1}\n                    :latency  60\n                    :response #(str \&quot;responseB-\&quot; (:f1 %))})))]\n    (xhr-await f3)\n    ;(xhr-await f2)\n    (is (= (:body (xhr-response f1)) \&quot;responseA\&quot;))\n    ;(is (= (:body (xhr-response f2)) 100))\n    ;(println :wtf (:body (xhr-response f3)))\n    (is (= (:body (xhr-response f3)) \&quot;responseB-responseA\&quot;))\n    ))&quot;, :offset 887, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(defn xhr-send [xhr]\n  (let [uri (md-get xhr :uri)]\n    (cpr :xhr-send-is-sending-uri uri)\n    (#?(:clj alter :cljs swap!) xhr assoc :send-time (now))\n\n    #?(:clj (client/get uri\n              {:async? true}\n              (fn [response]\n                (cpr :xhr-response!!! (:id @xhr) (:status response) uri)\n                (countit [:xhr :reponse])\n                (if (mdead? xhr)\n                  (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))\n                  (do\n                    ;;(cpr :hitting-with-cc *within-integrity*)\n                    (with-cc :xhr-handler-sets-responded\n                      (md-reset! xhr :response {:status (:status response)\n                                                :body   ((:body-parser @xhr) (:body response))})))))\n              (fn [exception]\n                (countit [:xhr :exception])\n                (cpr \&quot;xhr-send&gt; raw exception\&quot; exception)\n                (let [edata (:data (bean exception))]\n\n                  (cpr :xhr-exception!!! (:id @xhr) uri (:status edata) (parse-json$ (:body edata)))\n                  (when-not (mdead? xhr)\n                    (with-cc :xhr-handler-sets-error\n                      (md-reset! xhr :response {:status (:status edata)\n                                                :body   (parse-json$ (:body edata))}))))))\n\n       :cljs (go (let [response (&lt;! (client/get uri {:with-credentials? false}))]\n                   (if (:success response)\n                     (do\n                       ;(prn :body (keys (:body response)))\n                       ;(prn :success (:status response)  (keys response) (count (:body response)))\n                       (if (mdead? xhr)\n                         (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))\n                         (with-cc :xhr-handler-sets-responded\n                           (js/setTimeout\n                             #(do\n                                (when-let [d (:fake-delay @xhr)]\n                                  (println :fake-delayed!!!!!! d))\n                                (md-reset! xhr :response\n                                  {:status (:status response)\n                                   :body   ((:body-parser @xhr) (:body response))}))\n                             (or (:fake-delay @xhr) 0)))))\n\n                     (do\n                       (prn :NO-success :stat (:status response) :ecode (:error-code response)\n                            :etext (:error-text response))\n\n                       (if (mdead? xhr)\n                         (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))\n                         (with-cc :xhr-handler-sets-responded\n                           (md-reset! xhr :response {:status (:status response)\n                                                     :body   [(:error-code response)\n                                                              (:error-text response)]}))))))))))&quot;, :offset 2926, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(defn xhr-dummy [options]\n  (make-xhr \&quot;http://example.com\&quot;\n    {:id (:id options)\n     :send?       true\n     :body-parser (fn [b]\n                    (when-let [lat (:latency options)]\n                      (println :latting lat)\n                      (Thread/sleep lat))\n                    (let [r (:response options)]\n                      (println :opts!!!!! options)\n                      (if (fn? r)\n                        (r (:params options))\n                        r)))}))&quot;, :offset 484, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(defn xhr-send [xhr]\n  (let [uri (md-get xhr :uri)]\n    (cpr :xhr-send-is-sending-uri (:id @xhr) uri)\n    (#?(:clj alter :cljs swap!) xhr assoc :send-time (now))\n\n    #?(:clj (client/get uri\n              {:async? true}\n              (fn [response]\n                (cpr :xhr-response!!! (:id @xhr) (:status response) uri)\n                (countit [:xhr :reponse])\n                (if (mdead? xhr)\n                  (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))\n                  (do\n                    ;;(cpr :hitting-with-cc *within-integrity*)\n                    (with-cc :xhr-handler-sets-responded\n                      (md-reset! xhr :response {:status (:status response)\n                                                :body   ((:body-parser @xhr) (:body response))})))))\n              (fn [exception]\n                (countit [:xhr :exception])\n                (cpr \&quot;xhr-send&gt; raw exception\&quot; exception)\n                (let [edata (:data (bean exception))]\n\n                  (cpr :xhr-exception!!! (:id @xhr) uri (:status edata) (parse-json$ (:body edata)))\n                  (when-not (mdead? xhr)\n                    (with-cc :xhr-handler-sets-error\n                      (md-reset! xhr :response {:status (:status edata)\n                                                :body   (parse-json$ (:body edata))}))))))\n\n       :cljs (go (let [response (&lt;! (client/get uri {:with-credentials? false}))]\n                   (if (:success response)\n                     (do\n                       ;(prn :body (keys (:body response)))\n                       ;(prn :success (:status response)  (keys response) (count (:body response)))\n                       (if (mdead? xhr)\n                         (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))\n                         (with-cc :xhr-handler-sets-responded\n                           (js/setTimeout\n                             #(do\n                                (when-let [d (:fake-delay @xhr)]\n                                  (println :fake-delayed!!!!!! d))\n                                (md-reset! xhr :response\n                                  {:status (:status response)\n                                   :body   ((:body-parser @xhr) (:body response))}))\n                             (or (:fake-delay @xhr) 0)))))\n\n                     (do\n                       (prn :NO-success :stat (:status response) :ecode (:error-code response)\n                            :etext (:error-text response))\n\n                       (if (mdead? xhr)\n                         (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))\n                         (with-cc :xhr-handler-sets-responded\n                           (md-reset! xhr :response {:status (:status response)\n                                                     :body   [(:error-code response)\n                                                              (:error-text response)]}))))))))))&quot;, :offset 2937, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(defn xhr-await\n  ([xhr] (xhr-await xhr 3))\n  ([xhr max-seconds]\n   (cond\n     (xhr-response xhr)\n     (do                                                    ;;(println :xhr-resolved (xhr-response xhr))\n       ;;(cpr :xhr-resolved (xhrfo xhr))\n       xhr)\n\n     (&gt; max-seconds 0)\n     #?(:clj  (do\n                (cpr :no-response-xhr-await-sleeping-max (:id @xhr) max-seconds (xhrfo xhr))\n                (Thread/sleep 1000)\n                (recur xhr (dec max-seconds)))\n        :cljs (js/setTimeout\n                (fn []\n                  (cpr :xhr-await-sleeping-max max-seconds (xhrfo xhr))\n                  (xhr-await xhr (dec max-seconds))) 1000))\n\n     :default (do (println :xhr-await-timeout! max-seconds (xhrfo xhr))\n                  xhr))))&quot;, :offset 756, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(defn xhr-await\n  ([xhr] (xhr-await xhr 3))\n  ([xhr max-seconds]\n   (cond\n     (xhr-response xhr)\n     (do                                                    ;;(println :xhr-resolved (xhr-response xhr))\n       ;;(cpr :xhr-resolved (xhrfo xhr))\n       xhr)\n\n     (&gt; max-seconds 0)\n     #?(:clj  (do\n                (cpr :no-response-xhr-await-sleeping-max (:id @xhr) (:uri @xhr) @xhr max-seconds (xhrfo xhr))\n                (Thread/sleep 1000)\n                (recur xhr (dec max-seconds)))\n        :cljs (js/setTimeout\n                (fn []\n                  (cpr :xhr-await-sleeping-max max-seconds (xhrfo xhr))\n                  (xhr-await xhr (dec max-seconds))) 1000))\n\n     :default (do (println :xhr-await-timeout! max-seconds (xhrfo xhr))\n                  xhr))))&quot;, :offset 773, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(defn xhr-await\n  ([xhr] (xhr-await xhr 3))\n  ([xhr max-seconds]\n   (cond\n     (nil? xhr)\n     (do (println :xhr-await-passed-nil))\n     \n     (xhr-response xhr)\n     (do                                                    ;;(println :xhr-resolved (xhr-response xhr))\n       ;;(cpr :xhr-resolved (xhrfo xhr))\n       xhr)\n\n     (&gt; max-seconds 0)\n     #?(:clj  (do\n                (cpr :no-response-xhr-await-sleeping-max (:id @xhr) (:uri @xhr) @xhr max-seconds (xhrfo xhr))\n                (Thread/sleep 1000)\n                (recur xhr (dec max-seconds)))\n        :cljs (js/setTimeout\n                (fn []\n                  (cpr :xhr-await-sleeping-max max-seconds (xhrfo xhr))\n                  (xhr-await xhr (dec max-seconds))) 1000))\n\n     :default (do (println :xhr-await-timeout! max-seconds (xhrfo xhr))\n                  xhr))))&quot;, :offset 837, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(defn xhr-await\n  ([xhr] (xhr-await xhr 3))\n  ([xhr max-seconds]\n   (cond\n     (not (= ::xhr (type-cljc xhr)))\n     (do (println :xhr-await-passed-non-xhr))\n\n     (xhr-response xhr)\n     (do                                                    ;;(println :xhr-resolved (xhr-response xhr))\n       ;;(cpr :xhr-resolved (xhrfo xhr))\n       xhr)\n\n     (&gt; max-seconds 0)\n     #?(:clj  (do\n                (cpr :no-response-xhr-await-sleeping-max (:id @xhr) (:uri @xhr) @xhr max-seconds (xhrfo xhr))\n                (Thread/sleep 1000)\n                (recur xhr (dec max-seconds)))\n        :cljs (js/setTimeout\n                (fn []\n                  (cpr :xhr-await-sleeping-max max-seconds (xhrfo xhr))\n                  (xhr-await xhr (dec max-seconds))) 1000))\n\n     :default (do (println :xhr-await-timeout! max-seconds (xhrfo xhr))\n                  xhr))))&quot;, :offset 857, :ns &quot;tiltontec.xhr&quot;} {:command &quot;(deftest xhr-reactx-oops\n  ;; oops. f1 not populated when response sampled for f3. duh.\n  (let [f1 (xhr-dummy\n             {:id       :service-a\n              :latency  100\n              :response \&quot;responseA\&quot;})\n        f2 (xhr-dummy\n             {:id       :service-b\n              :latency  40\n              :response 100})\n\n        f3 (c? (when-let [r1 (:body (xhr-response f1))]\n                 (println :dispatching-f3!!!!!!!!!!!)\n                 (xhr-dummy\n                   {:id       :service-c\n                    :params   {:f1 r1}\n                    :latency  60\n                    :response #(str \&quot;responseB-\&quot; (:f1 %))})))]\n    (xhr-await (&lt;cget f1))\n    ;(xhr-await f2)\n    (is (= (:body (xhr-response f1)) \&quot;responseA\&quot;))\n    ;(is (= (:body (xhr-response f2)) 100))\n    ;(println :wtf (:body (xhr-response f3)))\n    (is (= (:body (xhr-response f3)) \&quot;responseB-responseA\&quot;))\n    ))&quot;, :offset 895, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest xhr-reactx-oops\n  ;; oops. f1 not populated when response sampled for f3. duh.\n  (let [f1 (xhr-dummy\n             {:id       :service-a\n              :latency  100\n              :response \&quot;responseA\&quot;})\n        f2 (xhr-dummy\n             {:id       :service-b\n              :latency  40\n              :response 100})\n\n        f3 (c? (when-let [r1 (:body (xhr-response f1))]\n                 (println :dispatching-f3!!!!!!!!!!!)\n                 (xhr-dummy\n                   {:id       :service-c\n                    :params   {:f1 r1}\n                    :latency  60\n                    :response #(str \&quot;responseB-\&quot; (:f1 %))})))]\n    (xhr-await (&lt;cget f1))\n    ;(xhr-await f2)\n    (is (= (:body (xhr-response f1)) \&quot;responseA\&quot;))\n    ;(is (= (:body (xhr-response f2)) 100))\n    ;(println :wtf (:body (xhr-response f3)))\n    (is (= (:body (xhr-response f3)) \&quot;responseB-responseA\&quot;))\n    (println :fini)))&quot;, :offset 910, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest xhr-reactx-oops\n  ;; oops. f1 not populated when response sampled for f3. duh.\n  (let [f1 (xhr-dummy\n             {:id       :service-a\n              :latency  100\n              :response \&quot;responseA\&quot;})\n        f2 (xhr-dummy\n             {:id       :service-b\n              :latency  40\n              :response 100})\n\n        f3 (c? (when-let [r1 (:body (xhr-response f1))]\n                 (println :dispatching-f3!!!!!!!!!!! r1)\n                 (xhr-dummy\n                   {:id       :service-c\n                    :params   {:f1 r1}\n                    :latency  60\n                    :response #(str \&quot;responseB-\&quot; (:f1 %))})))]\n    (xhr-await f1)\n    ;(xhr-await f2)\n    (is (= (:body (xhr-response f1)) \&quot;responseA\&quot;))\n    (xhr-await (&lt;cget f3))\n    ;(is (= (:body (xhr-response f2)) 100))\n    ;(println :wtf (:body (xhr-response f3)))\n    (is (= (:body (xhr-response f3)) \&quot;responseB-responseA\&quot;))\n    (println :fini)))&quot;, :offset 932, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest xhr-reactx-oops\n  ;; oops. f1 not populated when response sampled for f3. duh.\n  (let [f1 (xhr-dummy\n             {:id       :service-a\n              :latency  100\n              :response \&quot;responseA\&quot;})\n        f2 (xhr-dummy\n             {:id       :service-b\n              :latency  40\n              :response 100})\n\n        f3 (c? (when-let [r1 (:body (xhr-response f1))]\n                 (println :dispatching-f3!!!!!!!!!!! r1)\n                 (xhr-dummy\n                   {:id       :service-c\n                    :params   {:f1 r1}\n                    :latency  60\n                    :response #(str \&quot;responseB-\&quot; (:f1 %))})))]\n    (xhr-await f1)\n    ;(xhr-await f2)\n    (is (= (:body (xhr-response f1)) \&quot;responseA\&quot;))\n    (xhr-await (&lt;cget f3))\n    ;(is (= (:body (xhr-response f2)) 100))\n    ;(println :wtf (:body (xhr-response f3)))\n    (is (= (:body (xhr-response (&lt;cget f3))) \&quot;responseB-responseA\&quot;))\n    (println :fini)))&quot;, :offset 940, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest xhr-reactx-oops\n  ;; oops. f1 not populated when response sampled for f3. duh.\n  (let [f1 (xhr-dummy\n             {:id       :service-a\n              :latency  100\n              :response \&quot;responseA\&quot;})\n        f2 (xhr-dummy\n             {:id       :service-b\n              :latency  40\n              :response 100})\n\n        f3 (c? (when-let [r1 (:body (xhr-response f1))]\n                 (println :dispatching-f3!!!!!!!!!!! r1)\n                 (xhr-dummy\n                   {:id       :service-c\n                    :params   {:f1 r1}\n                    :latency  60\n                    :response #(str \&quot;responseB-\&quot; (:f1 %))})))\n        ]\n    ;(xhr-await f1)\n    ;(xhr-await f2)\n    (xhr-await (&lt;cget f3))\n    \n    (is (= (:body (xhr-response f1)) \&quot;responseA\&quot;))\n    ;(is (= (:body (xhr-response f2)) 100))\n    ;(println :wtf (:body (xhr-response f3)))\n    (is (= (:body (xhr-response (&lt;cget f3))) \&quot;responseB-responseA\&quot;))\n    (println :fini)))&quot;, :offset 955, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(defn xhr-dummy [options]\n  (make-xhr \&quot;http://example.com\&quot;\n    {:id (:id options)\n     :send?       true\n     :kids (:kids options)\n     :body-parser (fn [b]\n                    (when-let [lat (:latency options)]\n                      (println :latency-sim lat)\n                      (Thread/sleep lat))\n                    (let [r (:response options)]\n                      (println :opts!!!!! options)\n                      (if (fn? r)\n                        (r (:params options))\n                        r)))}))&quot;, :offset 515, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(defn fn-await\n  ([fn] (fn-await :anon fn))\n  ([tag fn] (fn-await tag fn 3))\n  ([tag fn max-seconds]\n   (or (fn)\n     (if (&gt; max-seconds 0)\n       #?(:clj  (do\n                  (cpr :no-response-xhr-await-sleeping-max max-seconds tag)\n                  (Thread/sleep 1000)\n                  (recur fn-await (dec max-seconds)))\n          :cljs (js/setTimeout\n                  (fn []\n                      (cpr :fn-await-sleeping-max max-seconds tag)\n                      (fn-await tag fn (dec max-seconds))) 1000))\n\n       (do (println :fn-await-timeout! max-seconds tag)\n           nil)))))&quot;, :offset 593, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(defn fn-await\n  ([fn] (fn-await :anon fn))\n  ([tag fn] (fn-await tag fn 3))\n  ([tag fn max-seconds]\n   (or (fn)\n     (if (&gt; max-seconds 0)\n       #?(:clj  (do\n                  (cpr :no-response-xhr-await-sleeping-max max-seconds tag)\n                  (Thread/sleep 1000)\n                  (recur tag fn (dec max-seconds)))\n          :cljs (js/setTimeout\n                  (fn []\n                      (cpr :fn-await-sleeping-max max-seconds tag)\n                      (fn-await tag fn (dec max-seconds))) 1000))\n\n       (do (println :fn-await-timeout! max-seconds tag)\n           nil)))))&quot;, :offset 591, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest reactx-tree\n  (let [top (make ::md/family\n              :result (c? (when (every? xhr-response (&lt;mget me :kids))\n                            (map #(:body (xhr-response %)) (&lt;mget me :kids))))\n              :kids (c? (the-kids\n                          (xhr-dummy\n                            {:id       :f1-service-a\n                             :latency  100\n                             :response \&quot;responseA\&quot;\n                             ;:kids     (c? (cpr :kidrule!!!!!!)\n                             ;              (when-let [r1 (:body (xhr-response (mx-par me)))]\n                             ;                (println :making-f3!!!! r1)\n                             ;                (the-kids\n                             ;                  (xhr-dummy\n                             ;                    {:id       :service-c\n                             ;                     :params   {:f1 r1}\n                             ;                     :latency  60\n                             ;                     :response #(str \&quot;responseB-\&quot; (:f1 %))}))))\n                             })\n                          (xhr-dummy\n                            {:id       :f2-service-b\n                             :latency  40\n                             :response 100})\n\n                          )))]\n    (println :bam)\n    (let [r (fn-await :top #(:result @top))]\n      (println :boom r))))&quot;, :offset 1398, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest reactx-tree\n  (let [top (make ::md/family\n              :result (c? (cpr :cking-rs)\n                          (when (every? xhr-response (&lt;mget me :kids))\n                            (cpr :got-rs)\n                            (map #(:body (xhr-response %)) (&lt;mget me :kids))))\n              :kids (c? (the-kids\n                          (xhr-dummy\n                            {:id       :f1-service-a\n                             :latency  100\n                             :response \&quot;responseA\&quot;\n                             ;:kids     (c? (cpr :kidrule!!!!!!)\n                             ;              (when-let [r1 (:body (xhr-response (mx-par me)))]\n                             ;                (println :making-f3!!!! r1)\n                             ;                (the-kids\n                             ;                  (xhr-dummy\n                             ;                    {:id       :service-c\n                             ;                     :params   {:f1 r1}\n                             ;                     :latency  60\n                             ;                     :response #(str \&quot;responseB-\&quot; (:f1 %))}))))\n                             })\n                          (xhr-dummy\n                            {:id       :f2-service-b\n                             :latency  40\n                             :response 100})\n\n                          )))]\n    (println :bam)\n    (let [r (fn-await :top #(:result @top))]\n      (println :boom r))\n    (println :fini)))&quot;, :offset 1502, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest reactx-tree\n  (let [top (make\n              :f1 (c? (xhr-dummy\n                        {:id       :f1-service-a\n                         :latency  100\n                         :response \&quot;responseA\&quot;}))\n              :f2 (xhr-dummy\n                    {:id       :f2-service-b\n                     :latency  40\n                     :response 100})\n              \n              \n              :result (c? (cpr :cking-rs)\n                          (let [rs (map #(xhr-response (&lt;mget me %)) [:f1 :f2])]\n                            (when (every? rs)\n                              (cpr :got-rs)\n                              (map :body rs)))))]\n\n                             ;:kids     (c? (cpr :kidrule!!!!!!)\n                             ;              (when-let [r1 (:body (xhr-response (mx-par me)))]\n                             ;                (println :making-f3!!!! r1)\n                             ;                (the-kids\n                             ;                  (xhr-dummy\n                             ;                    {:id       :service-c\n                             ;                     :params   {:f1 r1}\n                             ;                     :latency  60\n                             ;                     :response #(str \&quot;responseB-\&quot; (:f1 %))}))))\n\n    (println :bam)\n    (let [r (fn-await :top #(:result @top))]\n      (println :boom r))\n    (println :fini)))&quot;, :offset 1408, :ns &quot;tiltontec.xhr-test&quot;} {:command &quot;(deftest reactx-tree\n  (let [top (make\n              :f1 (c? (xhr-dummy\n                        {:id       :f1-service-a\n                         :latency  100\n                         :response \&quot;responseA\&quot;}))\n              :f2 (xhr-dummy\n                    {:id       :f2-service-b\n                     :latency  40\n                     :response 100})\n\n\n              :result (c? (cpr :cking-rs)\n                          (let [rs (map #(xhr-response (&lt;mget me %)) [:f1 :f2])]\n                            (when (every? rs)\n                              (cpr :got-rs)\n                              (map :body rs)))))]\n\n                             ;:kids     (c? (cpr :kidrule!!!!!!)\n                             ;              (when-let [r1 (:body (xhr-response (mx-par me)))]\n                             ;                (println :making-f3!!!! r1)\n                             ;                (the-kids\n                             ;                  (xhr-dummy\n                             ;                    {:id       :service-c\n                             ;                     :params   {:f1 r1}\n                             ;                     :latency  60\n                             ;                     :response #(str \&quot;responseB-\&quot; (:f1 %))}))))\n\n    (println :bam)\n    (let [r (fn-await :top #(:result @top))]\n      (println :boom r))\n    (println :fini)))&quot;, :offset 1380, :ns &quot;tiltontec.xhr-test&quot;}], :remote []}}</component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -205,7 +166,15 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Clojure REPL.cljrepl">
+  <component name="RunManager" selected="Clojure REPL.Unnamed">
+    <configuration name="Unnamed" type="ClojureREPL" factoryName="Local">
+      <setting name="replType" value="1" />
+      <module name="xhr" />
+      <setting name="jvmArgs" value="" />
+      <setting name="parameters" value="" />
+      <setting name="workingDir" value="$PROJECT_DIR$" />
+      <setting name="profiles" value="" />
+    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -247,14 +216,6 @@
       <envs />
       <patterns />
     </configuration>
-    <configuration default="true" type="ClojureREPL" factoryName="Local">
-      <setting name="replType" value="1" />
-      <module name="xhr" />
-      <setting name="jvmArgs" value="" />
-      <setting name="parameters" value="" />
-      <setting name="workingDir" value="$PROJECT_DIR$" />
-      <setting name="profiles" value="" />
-    </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -295,45 +256,39 @@
       <properties />
       <listeners />
     </configuration>
-    <configuration name="cljrepl" type="ClojureREPL" factoryName="Local">
-      <setting name="replType" value="1" />
-      <module name="xhr" />
-      <setting name="jvmArgs" value="" />
-      <setting name="parameters" value="" />
-      <setting name="workingDir" value="$PROJECT_DIR$" />
-      <setting name="profiles" value="" />
-    </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="fe79443d-760f-4cb3-9baf-df6af47899dd" name="Default" comment="" />
-      <created>1514161537214</created>
+      <changelist id="5135d11c-4477-45d6-bd83-15c94c120edb" name="Default" comment="" />
+      <created>1517160529605</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1514161537214</updated>
+      <updated>1517160529605</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="179" y="72" width="1501" height="841" extended-state="0" />
+    <frame x="139" y="105" width="1494" height="922" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32899868" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="REPL" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4703531" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" x="1738" y="-35" width="820" height="783" />
+      <window_info id="REPL" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38487282" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Leiningen" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20253165" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24966533" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -343,52 +298,87 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="279" y="172" width="1301" height="641" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="REPL" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" show_stripe_button="true" weight="0.24172662" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" x="1738" y="-35" width="820" height="783" />
-      <window_info id="Leiningen" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21870504" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/project.clj">
+    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7350">
+          <caret line="490" column="38" lean-forward="false" selection-start-line="490" selection-start-column="38" selection-end-line="490" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/tiltontec/matrix/0.1.1-SNAPSHOT/matrix-0.1.1-SNAPSHOT.jar!/tiltontec/model/core.cljc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1560">
+          <caret line="104" column="7" lean-forward="false" selection-start-line="104" selection-start-column="7" selection-end-line="104" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2640">
+          <caret line="176" column="6" lean-forward="false" selection-start-line="176" selection-start-column="6" selection-end-line="176" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2640">
+          <caret line="176" column="6" lean-forward="false" selection-start-line="176" selection-start-column="6" selection-end-line="176" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/tiltontec/matrix/0.1.1-SNAPSHOT/matrix-0.1.1-SNAPSHOT.jar!/tiltontec/model/core.cljc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1560">
+          <caret line="104" column="7" lean-forward="false" selection-start-line="104" selection-start-column="7" selection-end-line="104" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3795">
+          <caret line="253" column="6" lean-forward="false" selection-start-line="253" selection-start-column="6" selection-end-line="253" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/tiltontec/matrix/0.1.1-SNAPSHOT/matrix-0.1.1-SNAPSHOT.jar!/tiltontec/model/core.cljc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1560">
+          <caret line="104" column="7" lean-forward="false" selection-start-line="104" selection-start-column="7" selection-end-line="104" selection-end-column="7" />
           <folding />
         </state>
       </provider>
@@ -396,410 +386,63 @@
     <entry file="file://$PROJECT_DIR$/XHR.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="765">
-            <caret line="51" column="43" lean-forward="false" selection-start-line="51" selection-start-column="43" selection-end-line="51" selection-end-column="43" />
-            <folding />
+          <first_editor relative-caret-position="167">
+            <caret line="35" column="21" lean-forward="false" selection-start-line="35" selection-start-column="21" selection-end-line="35" selection-end-column="21" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
+    <entry file="file://$PROJECT_DIR$/checkouts/matrix/src/tiltontec/cell/observer.cljc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="633">
+          <caret line="44" column="10" lean-forward="false" selection-start-line="44" selection-start-column="10" selection-end-line="44" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
+    <entry file="jar://$MAVEN_REPOSITORY$/com/tiltontec/matrix/0.1.1-SNAPSHOT/matrix-0.1.1-SNAPSHOT.jar!/tiltontec/cell/observer.cljc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1050">
-          <caret line="70" column="38" lean-forward="false" selection-start-line="70" selection-start-column="38" selection-end-line="70" selection-end-column="38" />
-          <folding />
+        <state relative-caret-position="270">
+          <caret line="44" column="5" lean-forward="false" selection-start-line="44" selection-start-column="5" selection-end-line="44" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
+    <entry file="file://$PROJECT_DIR$/test/cbhell.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/clj-http/clj-http/3.7.0/clj-http-3.7.0.jar!/clj_http/client.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17595">
-          <caret line="1173" column="7" lean-forward="false" selection-start-line="1173" selection-start-column="7" selection-end-line="1173" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="975">
-          <caret line="65" column="92" lean-forward="false" selection-start-line="65" selection-start-column="92" selection-end-line="65" selection-end-column="92" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/XHR.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="765">
-            <caret line="51" column="43" lean-forward="false" selection-start-line="51" selection-start-column="43" selection-end-line="51" selection-end-column="43" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="-837">
+          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3210">
-          <caret line="214" column="11" lean-forward="true" selection-start-line="214" selection-start-column="11" selection-end-line="214" selection-end-column="11" />
+        <state relative-caret-position="671">
+          <caret line="330" column="25" lean-forward="false" selection-start-line="307" selection-start-column="0" selection-end-line="330" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/tiltontec/matrix/0.1.1-SNAPSHOT/matrix-0.1.1-SNAPSHOT.jar!/tiltontec/cell/base.cljc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="70" column="10" lean-forward="false" selection-start-line="70" selection-start-column="10" selection-end-line="70" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/tiltontec/matrix/0.1.1-SNAPSHOT/matrix-0.1.1-SNAPSHOT.jar!/tiltontec/model/core.cljc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="99" column="6" lean-forward="false" selection-start-line="99" selection-start-column="6" selection-end-line="99" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1095">
-          <caret line="73" column="15" lean-forward="false" selection-start-line="68" selection-start-column="0" selection-end-line="73" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/XHR.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="765">
-            <caret line="51" column="43" lean-forward="false" selection-start-line="51" selection-start-column="43" selection-end-line="51" selection-end-column="43" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/clj-http/clj-http/3.7.0/clj-http-3.7.0.jar!/clj_http/client.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17595">
-          <caret line="1173" column="7" lean-forward="false" selection-start-line="1173" selection-start-column="7" selection-end-line="1173" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3525">
-          <caret line="235" column="6" lean-forward="false" selection-start-line="235" selection-start-column="6" selection-end-line="235" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="55" lean-forward="false" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1065">
-          <caret line="71" column="11" lean-forward="false" selection-start-line="71" selection-start-column="11" selection-end-line="71" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3525">
-          <caret line="235" column="6" lean-forward="false" selection-start-line="235" selection-start-column="6" selection-end-line="235" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="55" lean-forward="false" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1065">
-          <caret line="71" column="11" lean-forward="false" selection-start-line="71" selection-start-column="11" selection-end-line="71" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2370">
-          <caret line="158" column="11" lean-forward="false" selection-start-line="158" selection-start-column="11" selection-end-line="158" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="59" column="24" lean-forward="false" selection-start-line="59" selection-start-column="24" selection-end-line="59" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="8" lean-forward="false" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2370">
-          <caret line="158" column="11" lean-forward="false" selection-start-line="158" selection-start-column="11" selection-end-line="158" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="59" column="24" lean-forward="false" selection-start-line="59" selection-start-column="24" selection-end-line="59" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="8" lean-forward="false" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2370">
-          <caret line="158" column="11" lean-forward="false" selection-start-line="158" selection-start-column="11" selection-end-line="158" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="59" column="24" lean-forward="false" selection-start-line="59" selection-start-column="24" selection-end-line="59" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="8" lean-forward="false" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2370">
-          <caret line="158" column="11" lean-forward="false" selection-start-line="158" selection-start-column="11" selection-end-line="158" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="8" lean-forward="false" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="59" column="24" lean-forward="false" selection-start-line="59" selection-start-column="24" selection-end-line="59" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2370">
-          <caret line="158" column="11" lean-forward="false" selection-start-line="158" selection-start-column="11" selection-end-line="158" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="8" lean-forward="false" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="62" column="12" lean-forward="true" selection-start-line="62" selection-start-column="12" selection-end-line="62" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr/test_runner.cljs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/XHR.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="765">
-            <caret line="51" column="43" lean-forward="false" selection-start-line="51" selection-start-column="43" selection-end-line="51" selection-end-column="43" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/clj-http/clj-http/3.7.0/clj-http-3.7.0.jar!/clj_http/client.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17595">
-          <caret line="1173" column="7" lean-forward="false" selection-start-line="1173" selection-start-column="7" selection-end-line="1173" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/clojure/clojure/1.7.0/clojure-1.7.0.jar!/clojure/core.clj">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="1468" column="6" lean-forward="false" selection-start-line="1468" selection-start-column="6" selection-end-line="1468" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tiltontec/xhr_test.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="70" column="38" lean-forward="false" selection-start-line="70" selection-start-column="38" selection-end-line="70" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tiltontec/xhr.cljc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="196" column="8" lean-forward="false" selection-start-line="196" selection-start-column="8" selection-end-line="196" selection-end-column="8" />
+        <state relative-caret-position="308">
+          <caret line="533" column="76" lean-forward="true" selection-start-line="533" selection-start-column="76" selection-end-line="533" selection-end-column="76" />
           <folding />
         </state>
       </provider>

@@ -38,10 +38,10 @@
 
     ; cool------------------------
 
-    #?(:clj [tiltontec.cell.observer :refer [fn-obs observe observe-by-type]]
+    #?(:clj [tiltontec.cell.observer :refer [fn-obs observe observe-by-type type-cljc]]
        :cljs [tiltontec.cell.observer
               :refer-macros [fn-obs]
-              :refer [observe observe-by-type]])
+              :refer [observe observe-by-type type-cljc]])
 
     ;cool-----
 
@@ -49,7 +49,7 @@
     [tiltontec.cell.core :refer :all]
        :cljs [tiltontec.cell.core
               :refer-macros [c? c?+ c_? c?_]
-              :refer [c-in c-reset! make-c-formula]])
+              :refer [c-in c-reset! make-c-formula ]])
 
     [tiltontec.model.core
      :refer-macros [the-kids mdv!]
@@ -72,6 +72,10 @@
 
     #?(:cljs [cljs.core.async :refer [<!]])
     ))
+
+(defn now []
+  #?(:clj (System/currentTimeMillis)
+     :cljs (.getTime (js/Date.))))
 
 (def +xhr-sid+ (atom -1))
 
@@ -107,12 +111,13 @@
 
 (defn xhr-send [xhr]
   (let [uri (md-get xhr :uri)]
-    ;;(cpr :xhr-send-is-sending-uri uri)
+    (cpr :xhr-send-is-sending-uri (:id @xhr) uri)
+    (#?(:clj alter :cljs swap!) xhr assoc :send-time (now))
 
     #?(:clj (client/get uri
               {:async? true}
               (fn [response]
-                ;(cpr :xhr-response!!! (:id @xhr) (:status response) uri)
+                (cpr :xhr-response!!! (:id @xhr) (:status response) uri)
                 (countit [:xhr :reponse])
                 (if (mdead? xhr)
                   (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))
@@ -181,7 +186,7 @@
   ([uri attrs]
    (assert (string? uri) (str "param uri <" uri "> not a string"))
    (let [xhr (apply make
-                    :type :tiltontec.xhr.core/xhr
+                    :type :tiltontec.xhr/xhr
                     :id (swap! +xhr-sid+ inc)               ;; debug aid
                     :uri uri
                     :response (c-in nil)
@@ -192,13 +197,11 @@
                                      (if-let [ks (md-get me :select)]
                                        (select-keys b ks)
                                        b)))
-                    (vec (apply concat (seq (dissoc attrs :send? :body-parser)))))]
-     (println :xhr-made!!!!!!!!!! uri)
-     #_ (when (:send? attrs)
-       (xhr-send xhr))
+                    (vec (apply concat (seq (dissoc attrs :body-parser)))))]
+     ;; (println :xhr-made!!!!!!!!!! uri)
      xhr)))
 
-(defmethod not-to-be [:tiltontec.xhr.core/xhr] [me]
+(defmethod not-to-be [:tiltontec.xhr/xhr] [me]
   ;; todo: worry about leaks
   ;; (println :not-to-be-xhr!!!!!!! me)
 
@@ -233,7 +236,8 @@
   ;;(println :xresp-sees (md-get xhr :uri)(md-get xhr :status))
   (md-get xhr :selection))
 
-(defmethod observe [:kids :tiltontec.xhr.core/xhr] [_ me newv oldv _]
+(defmethod observe [:kids :tiltontec.xhr/xhr] [_ me newv oldv _]
+  ;;
   (when (not= oldv unbound)
     ;; oldv unbound means initial build and this incremental add/remove
     ;; is needed only when kids change post initial creation
@@ -249,10 +253,10 @@
         :default                                            ;; try to cancel?
         (pln :ignoring-new-kid-xhrs!!!!!!! newv)))))
 
-(defmethod observe [:send? :tiltontec.xhr.core/xhr] [_ me newv oldv _]
-  (println :observing-xhr!!!! newv (:uri @me))
+(defmethod observe [:send? :tiltontec.xhr/xhr] [_ me newv oldv _]
+  ;; (println :observing-xhr!!!! newv (:uri @me))
   (when newv
-    (println :sending-xhr!!!!!!!!!!!!!)
+    ;;(println :send?-observer-sending-xhr!!!!!!!!!!!!!)
     (xhr-send me)))
 
 ;;; --- extraction to map --------
@@ -269,7 +273,7 @@
 
 (defn xhr-to-map [xhr]
   (case (type xhr)
-    :tiltontec.xhr.core/xhr
+    :tiltontec.xhr/xhr
     (xhr-name-to-map xhr)
 
     :tiltontec.model.core/family
@@ -304,8 +308,10 @@
 (defn xhr-await
   ([xhr] (xhr-await xhr 3))
   ([xhr max-seconds]
-
    (cond
+     (not (= ::xhr (type-cljc xhr)))
+     (do (println :xhr-await-passed-non-xhr))
+
      (xhr-response xhr)
      (do                                                    ;;(println :xhr-resolved (xhr-response xhr))
        ;;(cpr :xhr-resolved (xhrfo xhr))
@@ -313,7 +319,7 @@
 
      (> max-seconds 0)
      #?(:clj  (do
-                (cpr :no-response-xhr-await-sleeping-max max-seconds (xhrfo xhr))
+                (cpr :no-response-xhr-await-sleeping-max (:id @xhr) (:uri @xhr) @xhr max-seconds (xhrfo xhr))
                 (Thread/sleep 1000)
                 (recur xhr (dec max-seconds)))
         :cljs (js/setTimeout
@@ -322,7 +328,7 @@
                   (xhr-await xhr (dec max-seconds))) 1000))
 
      :default (do (println :xhr-await-timeout! max-seconds (xhrfo xhr))
-                  nil))))
+                  xhr))))
 
 (defn synaptic-xhr
   ([id uri] (synaptic-xhr id uri true))

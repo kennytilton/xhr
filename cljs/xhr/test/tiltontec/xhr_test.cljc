@@ -6,7 +6,7 @@
     [#?(:cljs cljs.pprint :clj clojure.pprint) :refer [pprint cl-format]]
     [tiltontec.util.core :refer [pln xor now *plnk-keys*
                                  counts countit counts-reset]]
-    [tiltontec.cell.evaluate :refer [c-get c-awaken not-to-be]]
+    [tiltontec.cell.evaluate :refer [c-get <cget c-awaken not-to-be]]
 
     #?(:clj
     [tiltontec.cell.base :refer :all]
@@ -57,11 +57,12 @@
 
 (deftest fda-adderall-ok
   (cells-init)
-  (let [xhr (xhr-await (send-xhr ae-adderall))]
+  (let [xhr (xhr-await (make-xhr ae-adderall {:send? true}))]
+    (assert xhr)
     (is (= 200 (xhr-status xhr)))
     (is (= 3 (count (:results (xhr-selection xhr)))))
     (let [ae (first (:results (xhr-selection xhr)))]
-      (pln :ae (keys ae))
+      ;;(pln :ae!!! (keys ae))
       (pprint (select-keys ae [:primarysourcecountry
                                :transmissiondate
                                :sender
@@ -77,7 +78,7 @@
   (let [xhr (xhr-await (send-xhr ae-yabba))]
     (is (= 404 (xhr-status xhr)))
     (is (nil? (:results (xhr-selection xhr))))
-    (pln :ae )
+    (pln :ae)
     (pprint @xhr)))
 
 (def rx-nav-test "https://rxnav.nlm.nih.gov/REST/interaction/interaction.json?rxcui=341248")
@@ -176,8 +177,8 @@
                               (send-xhr :drug-label (cl-format nil drug-label ndc)))
                             (when mfr-name
                               (send-xhr :mfr-recall (cl-format nil mfr-recalls
-                                                               (str/replace mfr-name #"[',\.]" "")
-                                                               1)))))))))))
+                                                      (str/replace mfr-name #"[',\.]" "")
+                                                      1)))))))))))
 
 
 (deftest fda-adverse-lite
@@ -190,18 +191,18 @@
   (let [ae-count 1
         brand "adderall"
         top (send-xhr :brand-adv-events (cl-format nil ae-brand brand ae-count)
-                      {:brand brand
-                       :kids  (c? (when-let [aes (:results (xhr-selection me))]
-                                    (countit :aes aes)
-                                    (the-kids
-                                      (for [ae aes]
-                                        (make ::md/family
-                                          :name :adverse-event
-                                          :ae (select-keys ae [:transmissiondate
-                                                               :sender
-                                                               :serious])
-                                          :patient (dissoc (:patient ae) :drug)
-                                          :kids (patient-drugs ae))))))})]
+              {:brand brand
+               :kids  (c? (when-let [aes (:results (xhr-selection me))]
+                            (countit :aes aes)
+                            (the-kids
+                              (for [ae aes]
+                                (make ::md/family
+                                  :name :adverse-event
+                                  :ae (select-keys ae [:transmissiondate
+                                                       :sender
+                                                       :serious])
+                                  :patient (dissoc (:patient ae) :drug)
+                                  :kids (patient-drugs ae))))))})]
 
 
     (when (xhr-await top)
@@ -291,9 +292,9 @@
 
 (defmacro getxhr [id uri & child-xhrs]
   `(make-xhr ~uri
-             {:send? true
-              :name  ~id
-              :kids  (c? ~@child-xhrs)}))
+     {:send? true
+      :name  ~id
+      :kids  (c? ~@child-xhrs)}))
 
 (defn xhr-dump
   ([xhr] (xhr-dump "untagged" xhr))
@@ -313,7 +314,7 @@
 
 (defn xhr-html [uri]
   (send-xhr uri
-            {:body-parser identity}))
+    {:body-parser identity}))
 
 (deftest xhr-index-html
   ;; get just one
@@ -324,14 +325,14 @@
                                   (println :fini!!! (map xhrfo new))
                                   (is (= 1 (count new)))
                                   (is (every? #(= :ok (xhr-status-key %)) new))))]
-                  (prn :checking-google)
+               (prn :checking-google)
 
-                  (let [google (with-synapse (:s-goog)
-                                 (xhr-html "http://google.com"))]
-                    (when-let [resp (md-get google :response)]
-                      (println :got-google-response!!! resp)
+               (let [google (with-synapse (:s-goog)
+                              (xhr-html "http://google.com"))]
+                 (when-let [resp (md-get google :response)]
+                   (println :got-google-response!!! resp)
 
-                      (list google))))]
+                   (list google))))]
 
     (let [r (cf-await xhrs 3)]
       (is (not (nil? r)))
@@ -351,15 +352,15 @@
                                        (is (= 3 (count new)))
                                        (is (every? #(= :responded (xhr-status-key %)) new))))]
 
-                       (when-let [google (xhr-await (with-synapse (:s-goog)
-                                                      (xhr-html "http://google.com")))]
+                    (when-let [google (xhr-await (with-synapse (:s-goog)
+                                                   (xhr-html "http://google.com")))]
 
-                         (when-let [yahoo (xhr-await (with-synapse (:s-yahoo)
-                                                       (xhr-html "http://yahoo.com")))]
-                           (when-let [youtube (xhr-await (with-synapse (:s-tube)
-                                                           (xhr-html "http://youtube.com")))]
-                             (cpr :youtube! (xhrfo youtube))
-                             (list google yahoo youtube)))))]
+                      (when-let [yahoo (xhr-await (with-synapse (:s-yahoo)
+                                                    (xhr-html "http://yahoo.com")))]
+                        (when-let [youtube (xhr-await (with-synapse (:s-tube)
+                                                        (xhr-html "http://youtube.com")))]
+                          (cpr :youtube! (xhrfo youtube))
+                          (list google yahoo youtube)))))]
     ;; cf-await means cell-formulaic await. Although the body above shows xhr-wait, that
     ;; is just the body of the cell. In cf-await we patiently wait for the cell formula to
     ;; return a non-nil value, and
@@ -437,8 +438,8 @@
                         (when new
                           (println :got-xhr!!!!!! new)
                           (swap! responses conj new)))]
-                (when-let [xhr (c-get h)]
-                  (xhrfo xhr)))]
+             (when-let [xhr (c-get h)]
+               (xhrfo xhr)))]
     (dotimes [_ 3]
       (cf-await h1))
     (Thread/sleep 2000)
@@ -448,21 +449,21 @@
 (deftest xhr-tree-simple
   (binding [*plnk-keys* [:xhr]]
     (let [top (make-xhr "http://google.com"
-                        {:send?       false
-                         :body-parser identity
-                         :kids        (c? (cpr :kidrule!!!!!!)
-                                          (when-let [parent (md-get me :response)]
-                                            (the-kids
-                                              (make-xhr "http://yahoo.com"
-                                                        {:par         me
-                                                         :send?       true
-                                                         :body-parser identity})
-                                              (make-xhr "http://youtube.com"
-                                                        {:par         me
-                                                         :send?       true
-                                                         :body-parser identity}))))})]
+                {:send?       true
+                 :body-parser identity
+                 :kids        (c? (cpr :kidrule!!!!!!)
+                                  (when-let [parent (md-get me :response)]
+                                    (the-kids
+                                      (make-xhr "http://yahoo.com"
+                                        {:par         me
+                                         :send?       true
+                                         :body-parser identity})
+                                      (make-xhr "http://youtube.com"
+                                        {:par         me
+                                         :send?       true
+                                         :body-parser identity}))))})]
 
-      (xhr-send top)
+      ;;(xhr-send top)
       (when (xhr-await top)
         (pln :waited!!!!!!!!!)
         (when (md-get top :response)
@@ -475,7 +476,153 @@
               (is (= 200 (xhr-status k))))))
         (println :fini!!!!!!!!)))))
 
+(defn xhr-dummy [options]
+  (make-xhr "http://example.com"
+    {:id          (:id options)
+     :send?       true
+     :kids        (:kids options)
+     :body-parser (fn [b]
+                    (when-let [lat (:latency options)]
+                      (println :latency-sim lat)
+                      (Thread/sleep lat))
+                    (let [r (:response options)]
+                      (println :opts!!!!! options)
+                      (if (fn? r)
+                        (r (:params options))
+                        r)))}))
 
+
+(defn fn-await
+  ([fn] (fn-await :anon fn))
+  ([tag fn] (fn-await tag fn 3))
+  ([tag fn max-seconds]
+   (or (fn)
+       (if (> max-seconds 0)
+         #?(:clj  (do
+                    (cpr :no-response-xhr-await-sleeping-max max-seconds tag)
+                    (Thread/sleep 1000)
+                    (recur tag fn (dec max-seconds)))
+            :cljs (js/setTimeout
+                    (fn []
+                        (cpr :fn-await-sleeping-max max-seconds tag)
+                        (fn-await tag fn (dec max-seconds))) 1000))
+
+         (do (println :fn-await-timeout! max-seconds tag)
+             nil)))))
+
+
+(deftest reactx-tree
+  (let [top (make
+              :f1 (c? (xhr-dummy
+                        {:id       :f1-service-a
+                         :latency  100
+                         :response "responseA"}))
+
+              :f2 (c? (xhr-dummy
+                        {:id       :f2-service-b
+                         :latency  40
+                         :response 100}))
+
+              :f3 (c? (when-let [f1v (:body (xhr-response (<mget me :f1)))]
+                        (println :making-f3!!!! f1v)
+                        (xhr-dummy
+                          {:id       :service-c
+                           :params   {:f1 f1v}
+                           :latency  60
+                           :response #(str "responseB-" (:f1 %))})))
+
+              :f45 (c? (when-let [f2v (:body (xhr-response (<mget me :f2)))]
+                          (println :making-f4-f5!!!! f2v)
+                          (vector
+                            (xhr-dummy
+                              {:id       :service-d
+                               :params   {:f2 f2v}
+                               :latency  140
+                               :response #(+ 40 (:f2 %))})
+                            (xhr-dummy
+                              {:id       :service-e
+                               :params   {:f2 f2v}
+                               :latency  55
+                               :response #(+ 5000 (:f2 %))}))))
+
+
+              :result (c? (when (and (every? #(<mget me %) [:f3 :f45])
+                                     (every? xhr-response (<mget me :f45)))
+                            (cpr :cking-rs)
+                            (let [rs (concat (map #(xhr-response (<mget me %)) [:f1 :f2 :f3])
+                                             (map xhr-response (<mget me :f45)))]
+                              (when (every? identity rs)
+                                (cpr :got-rs)
+                                (map :body rs))))))]
+
+    (println :bam)
+    (let [r (fn-await :top #(:result @top))]
+      (println :boom r))
+    (println :fini)))
+
+#_(deftest xhr-reactx-oops
+    ;; oops. f1 not populated when response sampled for f3. duh.
+    (let [f1 (xhr-dummy
+               {:id       :service-a
+                :latency  100
+                :response "responseA"})
+          f2 (xhr-dummy
+               {:id       :service-b
+                :latency  40
+                :response 100})
+
+          f3 (c? (when-let [r1 (:body (xhr-response f1))]
+                   (println :dispatching-f3!!!!!!!!!!! r1)
+                   (xhr-dummy
+                     {:id       :service-c
+                      :params   {:f1 r1}
+                      :latency  60
+                      :response #(str "responseB-" (:f1 %))})))
+          ]
+      ;(xhr-await f1)
+      ;(xhr-await f2)
+      (xhr-await (<cget f3))
+
+      (is (= (:body (xhr-response f1)) "responseA"))
+      ;(is (= (:body (xhr-response f2)) 100))
+      ;(println :wtf (:body (xhr-response f3)))
+      (is (= (:body (xhr-response (<cget f3))) "responseB-responseA"))
+      (println :fini)))
+#_(deftest xhr-reactx
+    ;; "responseA" <- f1
+    ;; 100 <- f2
+    ;; f3 <- f1
+    ;; f4,f5 <- f2
+    ;; ff <- f3, f4, f5
+    (let [f1 (xhr-dummy
+               {:id       :service-a
+                :latency  100
+                :response "responseA"})
+
+          f2 (xhr-dummy
+               {:id       :service-b
+                :latency  40
+                :response 100})
+
+          f3 (xhr-dummy
+               {:id       :service-c
+                :params   {:f1 (:response f1)}
+                :latency  60
+                :response #(str "responseB-" (:f1 %))})
+
+          f4 (xhr-dummy
+               {:id       :service-d
+                :params   {:f2 (:response f2)}
+                :latency  140
+                :response #(+ 40 (:f2 %))})
+
+          f5 (xhr-dummy
+               {:id       :service-e
+                :params   {:f2 (:response f2)}
+                :latency  55
+                :response #(+ 5000 (:f2 %))})]
+      )
+    )
 
 ;#_(binding [*dp-log* true]
 ;    ;; ill-advised example here emphasizing this is purgatory, not heaven: the first xhr never renders
