@@ -5,7 +5,7 @@ We continue [our exploration](https://github.com/kennytilton/todoFRP/blob/matrix
 
 If the reader is not familiar with CBH, here is one solid example:
 
-![callback hell code example](https://github.com/kennytilton/xhr/blob/master/cljs/resources/callback-hell.jpg)
+![callback hell code example](https://github.com/kennytilton/xhr/blob/master/cljs/xhr/resources/callback-hell.jpg)
 
 The telltale signature of CBH is (a) the deep indentation of (b) asynchronous handler within handler. 
 
