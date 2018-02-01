@@ -111,13 +111,13 @@
 
 (defn xhr-send [xhr]
   (let [uri (md-get xhr :uri)]
-    (cpr :xhr-send-is-sending-uri (:id @xhr) uri)
+    ;; (cpr :xhr-send-is-sending-uri (:id @xhr) uri)
     (#?(:clj alter :cljs swap!) xhr assoc :send-time (now))
 
     #?(:clj (client/get uri
               {:async? true}
               (fn [response]
-                (cpr :xhr-response!!! (:id @xhr) (:status response) uri)
+                ;; (cpr :xhr-response!!! (:id @xhr) (:status response) uri)
                 (countit [:xhr :reponse])
                 (if (mdead? xhr)
                   (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))
@@ -128,7 +128,7 @@
                                                 :body   ((:body-parser @xhr) (:body response))})))))
               (fn [exception]
                 (countit [:xhr :exception])
-                (cpr "xhr-send> raw exception" exception)
+                ;; (cpr "xhr-send> raw exception" exception)
                 (let [edata (:data (bean exception))]
 
                   (cpr :xhr-exception!!! (:id @xhr) uri (:status edata) (parse-json$ (:body edata)))
@@ -225,7 +225,7 @@
      :default (throw (#?(:cljs js/Error. :clj Exception.) (cl-format "~&send-xhr cannot discriminate params ~a and ~a" x y)))))
   ([name uri attrs]
    (countit :send-xhr)
-    (println :send-xhr!!!!! uri)
+    ;;;(println :send-xhr!!!!! uri)
    (make-xhr uri (merge {:name name :send? true} attrs))))
 
 (defn xhr-response [xhr]
@@ -254,9 +254,9 @@
         (pln :ignoring-new-kid-xhrs!!!!!!! newv)))))
 
 (defmethod observe [:send? :tiltontec.xhr/xhr] [_ me newv oldv _]
-  ;; (println :observing-xhr!!!! newv (:uri @me))
+  ;;(println :observing-xhr!!!! newv (:uri @me))
   (when newv
-    ;;(println :send?-observer-sending-xhr!!!!!!!!!!!!!)
+    ;;;(println :send?-observer-sending-xhr!!!!!!!!!!!!!)
     (xhr-send me)))
 
 ;;; --- extraction to map --------
