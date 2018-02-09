@@ -52,13 +52,13 @@ Oh, cool. We need only one* XHR property backed by a Cell, the `response`. Our p
      ;; or exception
      (fn [exception]
         (let [error-data (:data (bean exception))]
-          (mset!. xhr :response {:status (:status error-data)
+          (mset!> xhr :response {:status (:status error-data)
                                  :body   (parse-string (:body error-data) true)})))))
 ````
-Great. Now XHRs are active players in the matrix, asynchronously driving its proven, glitch-free data recalculation engine as responses or exceptions come back. A view can own an XHR in one property and have a second HTML property that says (where anaphor `me` is the view) `(when-let response (md-get (:xhr me) :response)...)` and magically emit HTML when the response gets set. Yeah.
+Great. Now XHRs are active players in the matrix, asynchronously driving its proven, glitch-free data recalculation engine as responses or exceptions come back. A view can own an XHR in one property and have a second HTML property that says (where anaphor `me` is the view) `(when-let response (<mget (:xhr me) :response)...)` and magically emit HTML when the response gets set. Yeah.
 
 ### Step Two: *Grow* the Matrix
-\* Okay, we lied: make that *two* XHR properties backed by Cells. The second is the ubiquitous `kids`, short for children. In Matrix (as we construct it -- others could use other approaches), everything is a tree (hence the ubiquity).  The Matrix crucially supports graceful growth or shrinkage of that tree as driven by, you guessed it, the dataflow. Let us understand this before digging further into CBHell.
+\* Okay, we lied: make that *two* XHR properties backed by Cells. The second is the ubiquitous `kids`, short for children. In Matrix (as we construct it -- others could use other approaches), everything is a freely navigable tree (hence the ubiquity).  The Matrix crucially supports graceful growth or shrinkage of that tree as driven by, you guessed it, the data flow. Let us understand this before digging further into CBHell.
 
 In our [TodoMVC solution](https://github.com/kennytilton/todoFRP/blob/matrixjs/todo/MatrixCLJS/README.md), we see of course that *properties* of an object vary according to the surrounding state. For example, the class of a to-do item view depends on whether the model to-do has been completed:
 ````cljs
@@ -83,14 +83,14 @@ Awesome. But we also need to vary the *population* of to-dos in the to-do list v
                                 "Completed" :items-completed
                                 "Active" :items-active))))})
 ````
-The Tag HTML library has an observer on the `kids` property so it knows when the matrix `UL` adds or removes `LI`s. It updates the DOM accordingly *and* works with MatrixCLJS to arrange for new/lost matrix objects to get up to speed or be quiesced in a way that does not break things (bringing us close to the internal weeds we promised to avoid).
+The WebMX HTML library has an observer on the `kids` property so it knows when the matrix `UL` adds or removes `LI`s. It updates the DOM accordingly *and* works with Matrix logic to arrange for new/lost matrix objects to get up to speed or be quiesced in a way that does not break things (bringing us close to the internal weeds we promised to avoid).
 
 > Fun Matrix historical note: when we hit upon dataflow we were stunned by its power and, like many who have since discovered some form of reactive library, we kept wondering when we would wake up from the dream -- when the library would hit some too low limit in what it could do. Dynamic, dataflow-driven population change was one place we were sure our luck would run out, and when it did not we suspected dataflow was deeply sound as paradigms go.
 
 Below we will see dynamic `kids` expressing in tree form the sequence of callbacks of our Hellish use case above. But first, let us look now at how we came to see that sequence as a tree. (OK, the indentation should have been a tip-off.)
 
 ### Step Three: Hey, is that SQL?
-Look again at the diagram above of our use case. Does it remind you of anything? Let me help: it takes a given user and collects all the comments for each post made by the friend. ie, Each XHR after the first is effectively doing an SQL join off of information gleaned from earlier XHRs! 
+Look again at the diagram above of our use case. Does it remind you of anything? Let me help: it takes a given user and collects all the comments for each post made by the friend. ie, Each XHR after the first is effectively doing an SQL join off information gleaned from earlier XHRs! 
 
 Just as Postgres (our fav) reads a little data then reads a little more based on what it found, the hellish callback cluster works outwards from an initial lookup by issuing new XHRs to get related data. The "hell" is in having to get there by juggling callbacks.
 
