@@ -15,7 +15,7 @@ We approached this challenge with no little trepidation, mostly because we had n
 ### Step One: Load the Matrix
 What we learned [with web apps]((https://github.com/kennytilton/todoFRP/blob/matrixjs/todo/MatrixCLJS/README.md)) was that, with everything (model, view, control, persistence) implemented as matrix objects (objects capable of dataflow), we did not need anything else in the way of a framework. HTML, CSS, and CLJS -- all mature and well-documented -- sufficed to put up an efficient dynamic web app with powerful declarative code.
 
-Let us pause to make sure the reader groks "implement as matrix object". One good example arose in the classic TodoMVC challenge, where we "lifted" a JSON to-do item from `window.localStorage` into the matrix with this code (`c-in` creating input cells):
+Let us pause to make sure the reader groks "implement as matrix object". One good example arose in the classic TodoMVC challenge, where we "lifted" a JSON to-do item from `window.localStorage` into the matrix with this code (`cI` creating input cells):
 ````
 (defn- reload-todo [todo-json-map]
   (apply md/make
@@ -23,10 +23,10 @@ Let us pause to make sure the reader groks "implement as matrix object". One goo
      :type      ::todo
 
      ;; now wrap in cells those properties we might mutate...
-     :title     (c-in (:title todo-json-map))
-     :completed (c-in (:completed todo-json-map false))
+     :title     (cI (:title todo-json-map))
+     :completed (cI (:completed todo-json-map false))
      :deleted   (or (:deleted todo-json-map) ;; once deleted, always deleted
-                    (c-in nil))})))))
+                    (cI nil))})))))
 ````
 Since the tricky requirements of the [TodoMVC spec](https://github.com/tastejs/todomvc/blob/master/app-spec.md) involved having the view reflect the state of the Todo items, we were pretty much done once Todos were in the Matrix. 
 
@@ -35,7 +35,7 @@ Let us then begin our attempt to resolve CBH with a matrix version of an XHR:
 (model/make
     :type :tiltontec.xhr.core/xhr
     :uri uri
-    :response (c-in nil))))))
+    :response (cI nil))))))
 ````
 Oh, cool. We need only one* XHR property backed by a Cell, the `response`. Our plan is to pack the entire response (or error) into that property when the Ajax request completes. Look for `mset!>`, the dataflow trigger function: 
 ````
@@ -55,20 +55,20 @@ Oh, cool. We need only one* XHR property backed by a Cell, the `response`. Our p
           (mset!. xhr :response {:status (:status error-data)
                                  :body   (parse-string (:body error-data) true)})))))
 ````
-Great. Now XHRs are active players in the matrix, asynchronously driving its proven, glitch-free data recalculation engine as responses or exceptions come back. A view can own an XHR in one property and have a second HTML property that says (where anaphor `me` is the view) `(when-let response (md-get (:xhr me) :response)...)` and magically emit HTML when the response gets set. Yeah.
+Great. Now XHRs are active players in the matrix, asynchronously driving its proven, glitch-free data recalculation engine as responses or exceptions come back. A view can own an XHR in one property and have a second HTML property that says (where anaphor `me` is the view) `(when-let response (<mget (:xhr me) :response)...)` and magically emit HTML when the response gets set. Yeah.
 
 ### Step Two: *Grow* the Matrix
 \* Okay, we lied: make that *two* XHR properties backed by Cells. The second is the ubiquitous `kids`, short for children. In Matrix (as we construct it -- others could use other approaches), everything is a tree (hence the ubiquity).  The Matrix crucially supports graceful growth or shrinkage of that tree as driven by, you guessed it, the dataflow. Let us understand this before digging further into CBHell.
 
 In our [TodoMVC solution](https://github.com/kennytilton/todoFRP/blob/matrixjs/todo/MatrixCLJS/README.md), we see of course that *properties* of an object vary according to the surrounding state. For example, the class of a to-do item view depends on whether the model to-do has been completed:
 ````cljs
-  (li {:class   (c? (if (md-get todo :completed) "completed" ""))
+  (li {:class   (cF (if (<mget todo :completed) "completed" ""))
        ...}...)
 ````
 Awesome. But we also need to vary the *population* of to-dos in the to-do list view as to-dos come and go and as the user filters them. Somewhat simplified:
 ````
 (defn todo-list-items []
-  (ul {:kids (c? (when-let [rte (mx-route me)]
+  (ul {:kids (cF (when-let [rte (mx-route me)]
                   (map todo-list-item
                      ;;
                      ;; both the overall number of (mx-todos me) (effectively an app-global input cell into which
@@ -77,7 +77,7 @@ Awesome. But we also need to vary the *population* of to-dos in the to-do list v
                      ;;
                      ;; (Not shown is our mechanism for avoiding regenerating everything each time.)
                      ;;
-                     (md-get (mx-todos me)
+                     (<mget (mx-todos me)
                              (case rte
                                 "All" :items
                                 "Completed" :items-completed
@@ -103,7 +103,7 @@ We did not have a source of friends, posts, and comments so we gathered drug adv
   ;; returns "ae-count" adverse events for Adderall, and for each a list of all other drugs
   ;; being taken by the patient who experienced the event.
   {:brand brand
-   :kids  (c? (for [ae (:results (xhr-selection me))]
+   :kids  (cF (for [ae (:results (xhr-selection me))]
                 (make ::md/family
                   :name :adverse-event
                   :ae (select-keys ae [:transmissiondate :sender :serious])
@@ -120,7 +120,7 @@ We did not have a source of friends, posts, and comments so we gathered drug adv
                             ;; now we build a heterogeneous family of XHRs, one to get drug label info
                             ;; and one to get possibly multiple recall notices by the manufacturer (of any drug)
                             ;;
-                            :kids (c? (the-kids
+                            :kids (cF (the-kids
                                         (when ndc
                                           (SEND-XHR :drug-label (cl-format nil drug-label ndc)))
                                         (when mfr-name
@@ -153,7 +153,7 @@ Here are some examples excerpted from [the XHR test suite](https://github.com/ke
 ### Asynchronous made serial
 We begin with simple example in which we execute three XHRs without blocking and without *coding* callbacks (a `send-xhr` function sets up callbacks for us which feed responses into the `response` input Cell) but in sequence such that each subsequent XHR can work of the results of earlier XHRs:
 ````
-(let [content (c? (when-let [google (xhr-resolved (with-synapse (:s-goog)
+(let [content (cF (when-let [google (xhr-resolved (with-synapse (:s-goog)
                                                  (send-xhr "http://google.com")))]
                     (when-let [yahoo (xhr-resolved (with-synapse (:s-yahoo)
                                                   (send-xhr "http://yahoo.com")))]
@@ -183,7 +183,7 @@ The head-spinner is that this one rule, once invoked, will run repeatedly and as
 This time we let three requests run in parallel but return them together when all have completed.
 ````
 (let [sites ["http://google.com" "http://yahoo.com" "http://youtube.com"]
-      xhr-cell (c? (when-let [xhrs (with-synapse (:make-xhrs [])
+      xhr-cell (cF (when-let [xhrs (with-synapse (:make-xhrs [])
                                       (map send-xhr sites))]
                       (when (every? #(some #{(xhr-status-key %)} [:responded :error]) xhrs)
                          xhrs)))]
@@ -195,7 +195,7 @@ Function `cf-await` loops until the xhr-cell value is non-nil. The cell initiall
 ### Branching requests based on success of initial request
 We write structured if-else code handling asynchronous requests without blocking or coding callbacks ourselves. See `cx-if-else` followed by two test cases:
 ````
-  (c? (when-let [google (synaptic-xhr :s-goog goog-uri)]
+  (cF (when-let [google (synaptic-xhr :s-goog goog-uri)]
                   (if (xhr-error? google)
                     (when-let [yahoo (synaptic-xhr :s-yahoo "http://yahoo.com")]
                       (cpr :goog-error-try-yahoo)

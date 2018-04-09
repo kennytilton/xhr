@@ -12,7 +12,7 @@
                  [com.cognitect/transit-cljs "0.8.243"]
                  [se.haleby/stub-http "0.2.3"]
                  [com.taoensso/tufte "1.1.2"]
-                 [com.tiltontec/matrix "0.1.1-SNAPSHOT"]]
+                 [com.tiltontec/matrix "0.1.3-SNAPSHOT"]]
   :plugins [[lein-cljsbuild "1.1.3"]
             [lein-doo "0.1.6"]]
   :doo {:paths {:rhino "lein run -m org.mozilla.javascript.tools.shell.Main"}}

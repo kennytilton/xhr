@@ -20,7 +20,7 @@
     [tiltontec.model.core :refer :all :as md]
        :cljs [tiltontec.model.core
               :refer-macros [the-kids mdv!]
-              :refer [md-get fasc fm! make md-reset! backdoor-reset!
+              :refer [<mget fasc fm! make md-reset! backdoor-reset!
                       mx-par]
               :as md])
 
@@ -77,9 +77,7 @@
   (cells-init)
   (let [xhr (xhr-await (send-xhr ae-yabba))]
     (is (= 404 (xhr-status xhr)))
-    (is (nil? (:results (xhr-selection xhr))))
-    (pln :ae)
-    (pprint @xhr)))
+    (is (nil? (:results (xhr-selection xhr))))))
 
 (def rx-nav-test "https://rxnav.nlm.nih.gov/REST/interaction/interaction.json?rxcui=341248")
 
@@ -87,7 +85,7 @@
   (cells-init)
   (let [xhr (xhr-await (send-xhr rx-nav-test))]
     (is (= 200 (xhr-status xhr)))
-    (pprint (:body (xhr-response xhr)))
+    ;;(pprint (:body (xhr-response xhr)))
     (let [ae (first (:results (xhr-selection xhr)))]
       (pln :ae (keys ae)))))
 
@@ -159,7 +157,7 @@
 (declare xhr-dump)
 
 (defn patient-drugs [ae]
-  (c? (the-kids
+  (cF (the-kids
         (for [drug (do (:drug (:patient ae)))
               :let [ndc (first (get-in drug [:openfda :product_ndc]))
                     mfr-name (first (get-in drug [:openfda :manufacturer_name]))]]
@@ -172,7 +170,7 @@
                 :ndc ndc
                 :drugindication (:drugindication drug)
                 :medicinalproduct (:medicinalproduct drug)
-                :kids (c? (the-kids
+                :kids (cF (the-kids
                             (when ndc
                               (send-xhr :drug-label (cl-format nil drug-label ndc)))
                             (when mfr-name
@@ -192,7 +190,7 @@
         brand "adderall"
         top (send-xhr :brand-adv-events (cl-format nil ae-brand brand ae-count)
               {:brand brand
-               :kids  (c? (when-let [aes (:results (xhr-selection me))]
+               :kids  (cF (when-let [aes (:results (xhr-selection me))]
                             (countit :aes aes)
                             (the-kids
                               (for [ae aes]
@@ -238,7 +236,7 @@
   `(make-xhr ~uri
      {:send? true
       :name  ~id
-      :kids  (c? ~@child-xhrs)}))
+      :kids  (cF ~@child-xhrs)}))
 
 (defn xhr-dump
   ([xhr] (xhr-dump "untagged" xhr))
@@ -246,11 +244,11 @@
                (case (:name @xhr)
                  :drug-label (cpr tag (:name @xhr) (:dbg @xhr)
                                :status (xhr-status-key xhr)
-                               :drug-label-warning (first (:warnings (first (:results (md-get xhr :selection))))))
+                               :drug-label-warning (first (:warnings (first (:results (<mget xhr :selection))))))
                  :mfr-recall (cpr tag (:name @xhr) (:dbg @xhr)
                                :status (xhr-status-key xhr)
-                               (first (:results (md-get xhr :selection)))
-                               :sel (select-keys (first (:results (md-get xhr :selection)))
+                               (first (:results (<mget xhr :selection)))
+                               :sel (select-keys (first (:results (<mget xhr :selection)))
                                       [:state :reason_for_recall]))
                  (cpr tag :xhr-dump-unknown (:name @xhr) (:dbg @xhr)))
                (do
@@ -264,7 +262,7 @@
   ;; get just one
   (cells-init)
 
-  (let [xhrs (c?+ [:slot :synch!
+  (let [xhrs (cF+ [:slot :synch!
                    :obs (fn-obs (when new
                                   (println :fini!!! (map xhrfo new))
                                   (is (= 1 (count new)))
@@ -273,8 +271,8 @@
 
                (let [google (with-synapse (:s-goog)
                               (xhr-html "http://google.com"))]
-                 (when-let [resp (md-get google :response)]
-                   (println :got-google-response!!! resp)
+                 (when-let [resp (<mget google :response)]
+                   (println :got-google-response!!! )
 
                    (list google))))]
 
@@ -291,8 +289,8 @@
     (let [top (make-xhr "http://google.com"
                 {:send?       true
                  :body-parser identity
-                 :kids        (c? (cpr :kidrule!!!!!!)
-                                (when-let [parent (md-get me :response)]
+                 :kids        (cF (cpr :kidrule!!!!!!)
+                                (when-let [parent (<mget me :response)]
                                   (the-kids
                                     (make-xhr "http://yahoo.com"
                                       {:par         me
@@ -305,7 +303,7 @@
 
       ;;(xhr-send top)
       (when (xhr-await top)
-        (when (md-get top :response)
+        (when (<mget top :response)
           (is (= 200 (xhr-status top)))
           (is (= 2 (count (md-kids top))))
           (doseq [k (md-kids top)]
@@ -322,26 +320,32 @@
   ;; kick off one at a time waiting for the prior to complete before sending next.
   (cells-init)
 
-  (let [xhrs-cell (c?+ [:slot :synch!
+  (let [xhrs-cell (cF+ [:slot :synch!
                         :obs (fn-obs (when new
-                                       (println :fini!!! (map xhrfo new))
+                                       (println (str :xhrseq-new!! (count new)))
+                                       ;; (println :fini!!! (map xhrfo new))
                                        (is (= 3 (count new)))
-                                       (is (every? #(= :responded (xhr-status-key %)) new))))]
+                                       #_ (is (every? #(= :responded (xhr-status-key %))
+                                             new))))]
 
-                    (when-let [google (xhr-response (with-synapse (:s-goog)
-                                                      (xhr-html "http://google.com")))]
+                    (when-let [google (xhr-response
+                                        (with-synapse (:s-goog)
+                                          (xhr-html "http://google.com")))]
 
-                      (when-let [yahoo (xhr-response (with-synapse (:s-yahoo)
-                                                       (xhr-html "http://yahoo.com")))]
-                        (when-let [youtube (xhr-response (with-synapse (:s-tube)
-                                                           (xhr-html "http://youtube.com")))]
-                          (cpr :youtube! youtube)
+                      (when-let [yahoo (xhr-response
+                                         (with-synapse (:s-yahoo)
+                                           (xhr-html "http://yahoo.com")))]
+                        (when-let [youtube (xhr-response
+                                             (with-synapse (:s-tube)
+                                               (xhr-html "http://youtube.com")))]
+                          (cpr :youtube! )
                           (list google yahoo youtube)))))]
     ;; cf-await means cell-formulaic await. Although the body above shows xhr-wait, that
     ;; is just the body of the cell. In cf-await we patiently wait for the cell formula to
     ;; return a non-nil value, and
 
     (let [r (cf-await xhrs-cell)]
+
       (is (not (nil? r)))
       (when r
         (is (= 3 (count r)))
@@ -352,7 +356,7 @@
   ;; make a list of requests and produce a list of the responses when all three have completed.
   (cells-init)
   (let [sites (do ["http://google.com" "http://yahoo.com" "http://youtube.com"])
-        xhrs-cell (c? (when-let [xhrs (with-synapse (:make-xhrs [])
+        xhrs-cell (cF (when-let [xhrs (with-synapse (:make-xhrs [])
                                         (map xhr-html sites))]
                         (when (every? #(some #{(xhr-status-key %)} [:ok :error]) xhrs)
                           xhrs)))]
@@ -370,11 +374,11 @@
   (cells-init)
   (binding [*dp-log* true]
     (letfn [(cx-if-else [goog-uri]
-              (c? (cpr :runnning!!!)
+              (cF (cpr :runnning!!!)
                 (when-let [google (with-synapse (:s-goog)
                                     (send-unparsed-xhr :s-goog "http://google.com" false))]
                   (cpr :got-goog??? google)
-                  (when (md-get google :response)
+                  (when (<mget google :response)
                     (cpr :got-goog!!! (xhrfo google))
                     (if (xhr-error? google)
                       (when-let [yahoo (synaptic-xhr-unparsed :s-yahoo "http://yahoo.com")]
@@ -388,14 +392,14 @@
           (is (not (nil? r)))
           (when r
             (is (= 2 (count r)))
-            (is (some #(.contains (md-get % :uri) "google") r))
-            (is (some #(.contains (md-get % :uri) "youtube") r)))))
+            (is (some #(.contains (<mget % :uri) "google") r))
+            (is (some #(.contains (<mget % :uri) "youtube") r)))))
       #_(let [cx-ok (cx-if-else "http://googlexxxxxx.com")]
           (let [r (cf-await cx-ok)]
             (is (not (nil? r)))
             (when r
               (is (= 1 (count r)))
-              (is (some #(.contains (md-get % :uri) "yahoo") r))))))))
+              (is (some #(.contains (<mget % :uri) "yahoo") r))))))))
 
 (deftest xhr-send-group-get-as-received
   ;; kick off  requests and return them one at a time in order received.
@@ -403,14 +407,14 @@
   (let [sites ["http://google.com" "http://yahoo.com" "http://youtube.com" "http://example.com"]
         responses (atom [])
         h (let [open-xhrs (atom nil)]
-            (c? (let [xhrs (with-synapse (:make-xhrs)
+            (cF (let [xhrs (with-synapse (:make-xhrs)
                              (reset! open-xhrs (set (map #(send-unparsed-xhr :group % false) sites))))
-                      done (filter #(when (md-get % :response) %) @open-xhrs)]
+                      done (filter #(when (<mget % :response) %) @open-xhrs)]
                   (when (seq done)
                     (assert (= 1 (count done)) (str "done count NG:" (count done)))
                     (reset! open-xhrs (set/difference @open-xhrs done))
                     (first done)))))
-        h1 (c?+ [:obs (fn-obs
+        h1 (cF+ [:obs (fn-obs
                         (when new
                           (println :got-xhr!!!!!! new)
                           (swap! responses conj new)))]
@@ -454,7 +458,7 @@
   ;;; The use case specifies latencies for each XHR.
   ;;;
   (cells-init)
-  (let [h (c? (let [f15 (merge
+  (let [h (cF (let [f15 (merge
                           (when-let [f1v (with-xhr-body :get-f1
                                            (xhr-dummy :f1-service-a
                                              {:latency  100
@@ -494,21 +498,21 @@
 
 (deftest reactx-tree-2
   (let [top (make
-              :f1 (c? (xhr-dummy :f1-service-a
+              :f1 (cF (xhr-dummy :f1-service-a
                         {:latency  100
                          :response "responseA"}))
 
-              :f2 (c? (xhr-dummy :f2-service-b
+              :f2 (cF (xhr-dummy :f2-service-b
                         {:latency  40
                          :response 100}))
 
-              :f3 (c? (when-let [f1v (:body (xhr-response (<mget me :f1)))]
+              :f3 (cF (when-let [f1v (:body (xhr-response (<mget me :f1)))]
                         (xhr-dummy :service-c
                           {:params   {:f1 f1v}
                            :latency  60
                            :response #(str "responseB-" (:f1 %))})))
 
-              :f45 (c? (when-let [f2v (:body (xhr-response (<mget me :f2)))]
+              :f45 (cF (when-let [f2v (:body (xhr-response (<mget me :f2)))]
                          (cpr :building-245!!!!!!!!!!!!!!!!!!!!!!)
                          (vector
                            (xhr-dummy :service-d
@@ -521,8 +525,8 @@
                               :response #(+ 5000 (:f2 %))}))))
 
 
-              :result (c? (when (and (every? #(<mget me %) [:f3 :f45])
-                                  (every? xhr-response (<mget me :f45)))
+              :result (cF (when (and (every? #(<mget me %) [:f3 :f45])
+                                     (every? xhr-response (<mget me :f45)))
                             (let [rs (concat (map #(xhr-response (<mget me %)) [:f1 :f2 :f3])
                                        (map xhr-response (<mget me :f45)))]
                               (when (every? identity rs)
@@ -534,21 +538,21 @@
 
 (deftest reactx-tree
   (let [top (make
-              :f1 (c? (xhr-dummy :f1-service-a
+              :f1 (cF (xhr-dummy :f1-service-a
                         {:latency  100
                          :response "responseA"}))
 
-              :f2 (c? (xhr-dummy :f2-service-b
+              :f2 (cF (xhr-dummy :f2-service-b
                         {:latency  40
                          :response 100}))
 
-              :f3 (c? (when-let [f1v (:body (xhr-response (<mget me :f1)))]
+              :f3 (cF (when-let [f1v (:body (xhr-response (<mget me :f1)))]
                         (xhr-dummy :service-c
                           {:params   {:f1 f1v}
                            :latency  60
                            :response #(str "responseB-" (:f1 %))})))
 
-              :f45 (c? (when-let [f2v (:body (xhr-response (<mget me :f2)))]
+              :f45 (cF (when-let [f2v (:body (xhr-response (<mget me :f2)))]
                          (vector
                            (xhr-dummy :service-d
                              {:params   {:f2 f2v}
@@ -559,8 +563,8 @@
                               :latency  55
                               :response #(+ 5000 (:f2 %))}))))
 
-              :result (c? (when (and (every? #(<mget me %) [:f3 :f45])
-                                  (every? xhr-response (<mget me :f45)))
+              :result (cF (when (and (every? #(<mget me %) [:f3 :f45])
+                                     (every? xhr-response (<mget me :f45)))
                             (let [rs (concat (map #(xhr-response (<mget me %)) [:f1 :f2 :f3])
                                        (map xhr-response (<mget me :f45)))]
                               (when (every? identity rs)
@@ -573,19 +577,19 @@
 ;;; --- Utils --------------------------
 
 (defn cf-await
-  ([c] (cf-await c 10))
+  ([c] (cf-await c 5))
   ([c max-seconds]
-    ;;(println :cf-waiting!!!!!!)
+    (println :cf-waiting!!!!!! max-seconds)
    (loop [x 0]
      (let [r (c-get c)]
        (cond
-         r (do                                              ;;(print :bingor r)
-             r)
+         r r
          (< x 10) (do
-                    ;;(println :cf-awaitsleeping x)
+                    (println :cf-awaitsleeping x)
                     (Thread/sleep 1000)
                     (recur (inc x)))
-         :default (do                                       ;;(println :maxo)
+         :default (do
+                    (println :maxo)
                     nil))))))
 
 (defn fn-await
@@ -595,15 +599,15 @@
    (or (fn)
      (if (> max-seconds 0)
        #?(:clj  (do
-                  (cpr :no-response-xhr-await-sleeping-max max-seconds tag)
+                  (cpr :no-response-xhr-await-sleeping-max max-seconds )
                   (Thread/sleep 1000)
                   (recur tag fn (dec max-seconds)))
           :cljs (js/setTimeout
                   (fn []
-                    (cpr :fn-await-sleeping-max max-seconds tag)
+                    (cpr :fn-await-sleeping-max max-seconds )
                     (fn-await tag fn (dec max-seconds))) 1000))
 
-       (do (println :fn-await-timeout! max-seconds tag)
+       (do (println :fn-await-timeout! max-seconds )
            nil)))))
 
 ;;; --- Archive ------------------------------------------------
@@ -621,8 +625,8 @@
 ;    ;; cannot save us from having to think about outstanding requests still in transit.
 ;
 ;    (cells-init)
-;    (let [site (c-in "http://google.com" :slot :site)
-;          h (c?+ [:slot :htop
+;    (let [site (cI "http://google.com" :slot :site)
+;          h (cF+ [:slot :htop
 ;                  :obs (fn-obs (println :new-async-html!!!!! new :old old))]
 ;                 (pln :h-top!!!!!!!!!!!!!!!!!!!!!!! @sends)
 ;                 (when-let [xhr (with-synapse (:home-page [])
