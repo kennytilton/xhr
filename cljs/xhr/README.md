@@ -2,12 +2,11 @@
 
 A Clojure/Clojurescript library providing [Matrix](https://github.com/kennytilton/matrix)-aware XMLHttpRequests.
 
-## Clojars
-> [tiltontec/xhr "0.1.0-SNAPSHOT"]
-
 ## Usage
 
-For now, please see the tests, and even then it is a proof-of-concept slapdash glimpse of what will be after we start using the capability in anger.
+[![Clojars Project](https://img.shields.io/clojars/v/com.tiltontec/xhr.svg)](https://clojars.org/com.tiltontec/xhr)
+
+For now, please see the many tests, and even those reveal just a proof-of-concept slapdash glimpse of what will be after we start using the capability in anger.
 
 Or you might glean a little from [my amusing first experiences](https://github.com/kennytilton/xhr/blob/master/cljs/xhr/XHR.md) lifting XHRs into the Matrix.
 
