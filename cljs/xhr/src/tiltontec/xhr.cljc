@@ -121,8 +121,9 @@
 
     #?(:clj (client/get uri
               {:async? true}
+
               (fn [response]
-                ;; (cpr :xhr-response!!! (:id @xhr) (:status response) uri)
+                (prn :xhr-send-response!!! (:id @xhr) (:status response) uri)
                 (countit [:xhr :reponse])
                 (if (mdead? xhr)
                   (do (cpr :ignoring-response-to-dead-XHR!!! uri (meta xhr)))
@@ -133,10 +134,10 @@
                                                 :body   ((:body-parser @xhr) (:body response))})))))
               (fn [exception]
                 (countit [:xhr :exception])
-                ;; (cpr "xhr-send> raw exception" exception)
+                ;;(prn "xhr-send> raw exception" exception)
                 (let [edata (:data (bean exception))]
 
-                  (cpr :xhr-exception!!! (:id @xhr) uri (:status edata) (parse-json$ (:body edata)))
+                  (prn :xhr-exception!!! (:id @xhr) uri (:status edata) (parse-json$ (:body edata)))
                   (when-not (mdead? xhr)
                     (with-cc :xhr-handler-sets-error
                       (md-reset! xhr :response {:status (:status edata)
@@ -247,7 +248,9 @@
   ([name uri attrs]
    (countit :send-xhr)
     ;;;(println :send-xhr!!!!! uri)
-   (make-xhr uri (merge {:name name :send? true} attrs))))
+   (make-xhr uri (merge {:name name
+                         :send? true
+                         :timeout 5000} attrs))))
 
 (defmethod observe [:kids :tiltontec.xhr/xhr] [_ me newv oldv _]
   ;;

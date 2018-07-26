@@ -1,5 +1,5 @@
 .DS_store
-/target
+**/target
 /classes
 /checkouts
 pom.xml
@@ -11,3 +11,6 @@ pom.xml.asc
 .hgignore
 .hg/
 cljs/.idea
+**/.idea/*
+.lein-failures
+.nrepl-port

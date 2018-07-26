@@ -33,6 +33,7 @@
     <orderEntry type="library" name="Leiningen: com.taoensso/encore:2.92.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.taoensso/truss:1.5.0" level="project" />
     <orderEntry type="library" name="Leiningen: com.taoensso/tufte:1.1.2" level="project" />
+    <orderEntry type="library" name="Leiningen: com.tiltontec/matrix:0.1.3-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Leiningen: commons-codec:1.10" level="project" />
     <orderEntry type="library" name="Leiningen: commons-io:2.5" level="project" />
     <orderEntry type="library" name="Leiningen: commons-logging:1.2" level="project" />

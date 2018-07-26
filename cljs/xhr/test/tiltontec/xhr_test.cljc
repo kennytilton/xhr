@@ -2,6 +2,7 @@
   (:require
     [clojure.test :refer :all]
     [clojure.string :as str]
+    [clojure.xml :as xml]
     [clojure.set :as set]
     [#?(:cljs cljs.pprint :clj clojure.pprint) :refer [pprint cl-format]]
     [tiltontec.util.core :refer [pln xor now *plnk-keys*
@@ -111,7 +112,7 @@
         (println :beankeys!! (keys (bean exception)))
         ;;(println :bean!! ) (pprint (bean exception))
         (println :status (:status (:data (bean exception)))
-          :body (parse-json$ (:body (:data (bean exception))) true))
+                 :body (parse-json$ (:body (:data (bean exception))) true))
 
         (cpr :error!!!!!)
         )))
@@ -148,10 +149,10 @@
   (let [xhr (xhr-await
               (send-xhr
                 (str "https://api.fda.gov/drug/enforcement.json?"
-                  (do                                       ;; httpu/url-encode
-                    "search=recalling_firm:Teva Woman&limit=1"))))]
+                     (do                                    ;; httpu/url-encode
+                       "search=recalling_firm:Teva Woman&limit=1"))))]
     (println :Teva (xhr-status-key xhr)
-      (:recalling_firm (first (:results (xhr-selection xhr)))))
+             (:recalling_firm (first (:results (xhr-selection xhr)))))
     (is (= 200 (xhr-status xhr)))))
 
 (declare xhr-dump)
@@ -165,20 +166,24 @@
               (when-not ndc
                 (countit :no-ndc)
                 #_(pprint drug))
-              (make ::md/family
-                :name :patient-drug
-                :ndc ndc
-                :drugindication (:drugindication drug)
-                :medicinalproduct (:medicinalproduct drug)
-                :kids (cF (the-kids
-                            (when ndc
-                              (send-xhr :drug-label (cl-format nil drug-label ndc)))
-                            (when mfr-name
-                              (send-xhr :mfr-recall (cl-format nil mfr-recalls
-                                                      (str/replace mfr-name #"[',\.]" "")
-                                                      1)))))))))))
 
+              (when ndc
+                (prn :drugfo ndc mfr-name)
+                (make ::md/family
+                  :name :patient-drug
+                  :ndc ndc
+                  :drugindication (:drugindication drug)
+                  :medicinalproduct (:medicinalproduct drug)
+                  :kids (cF (the-kids
+                              (when ndc
+                                (send-xhr :drug-label (cl-format nil drug-label ndc)))
+                              (when mfr-name
+                                (send-xhr :mfr-recall (cl-format nil mfr-recalls
+                                                        (str/replace mfr-name #"[',\.]" "")
+                                                        1))))))))))))
 
+;; todo next test needs to wait on respoonses
+#_
 (deftest fda-adverse-lite
   ;; for 3 AEs
   ;;   for each drug taken by patient
@@ -192,6 +197,7 @@
               {:brand brand
                :kids  (cF (when-let [aes (:results (xhr-selection me))]
                             (countit :aes aes)
+                            (prn :ae-count (count aes))
                             (the-kids
                               (for [ae aes]
                                 (make ::md/family
@@ -208,9 +214,10 @@
       (is (= :ok (xhr-status-key top)))
       (is (= ae-count (count (md-kids top))))
       (doseq [ae (md-kids top)]
-        (doseq [drug (md-kids ae)]
+        (doseq [drug (take 16 (md-kids ae))]
+          (prn :drugfo2 (<mget drug :ndc))
           (doseq [info (md-kids drug)]
-
+            (prn :drugstat (xhr-status info)(xhr-status-key info) :ndc (:ndc drug))
             (is (some #{(xhr-status-key info)} [:ok [:error 400] [:error 404] 400 404])))))
 
       ;; (pprint (xhr-to-map top))
@@ -220,17 +227,17 @@
 (defmethod xhr-name-to-map :drug-label [xhr]
   {:name :drug-label
    :keys (select-keys (first (:results (:body (:response @xhr))))
-           [:effective_time
-            :package_label_principal_display_panel])})
+                      [:effective_time
+                       :package_label_principal_display_panel])})
 
 
 
 (defmethod xhr-name-to-map :mfr-recall [xhr]
   {:name :mfr-recall
    :keys (select-keys (first (:results (:body (:response @xhr))))
-           [:report_date
-            :reason_for_recall
-            :product_description])})
+                      [:report_date
+                       :reason_for_recall
+                       :product_description])})
 
 (defmacro getxhr [id uri & child-xhrs]
   `(make-xhr ~uri
@@ -243,13 +250,13 @@
   ([tag xhr] (if (= 200 (xhr-status-key xhr))
                (case (:name @xhr)
                  :drug-label (cpr tag (:name @xhr) (:dbg @xhr)
-                               :status (xhr-status-key xhr)
-                               :drug-label-warning (first (:warnings (first (:results (<mget xhr :selection))))))
+                                  :status (xhr-status-key xhr)
+                                  :drug-label-warning (first (:warnings (first (:results (<mget xhr :selection))))))
                  :mfr-recall (cpr tag (:name @xhr) (:dbg @xhr)
-                               :status (xhr-status-key xhr)
-                               (first (:results (<mget xhr :selection)))
-                               :sel (select-keys (first (:results (<mget xhr :selection)))
-                                      [:state :reason_for_recall]))
+                                  :status (xhr-status-key xhr)
+                                  (first (:results (<mget xhr :selection)))
+                                  :sel (select-keys (first (:results (<mget xhr :selection)))
+                                                    [:state :reason_for_recall]))
                  (cpr tag :xhr-dump-unknown (:name @xhr) (:dbg @xhr)))
                (do
                  (cpr tag :xhr-dump-fail! tag (xhr-status-key xhr) (:uri @xhr))))))
@@ -267,14 +274,14 @@
                                   (println :fini!!! (map xhrfo new))
                                   (is (= 1 (count new)))
                                   (is (every? #(= :ok (xhr-status-key %)) new))))]
-               (prn :checking-google)
+                  (prn :checking-google)
 
-               (let [google (with-synapse (:s-goog)
-                              (xhr-html "http://google.com"))]
-                 (when-let [resp (<mget google :response)]
-                   (println :got-google-response!!! )
+                  (let [google (with-synapse (:s-goog)
+                                 (xhr-html "http://google.com"))]
+                    (when-let [resp (<mget google :response)]
+                      (println :got-google-response!!!)
 
-                   (list google))))]
+                      (list google))))]
 
     (let [r (cf-await xhrs 3)]
       (is (not (nil? r)))
@@ -284,22 +291,51 @@
         (is (every? #(= 200 (xhr-status %)) r)))
       (println :topfini (map xhrfo (c-get xhrs))))))
 
+(deftest xhr-whoshiring-html
+  ;; get just one
+  (cells-init)
+
+  (let [xhrs (cF+ [:slot :synch!
+                   :obs (fn-obs (when new
+                                  (println :fini!!! (map xhrfo new))
+                                  (is (= 1 (count new)))
+                                  (is (every? #(= :ok (xhr-status-key %)) new))))]
+                  (prn :checking-hiring)
+
+                  (let [hiring (with-synapse (:s-hnews)
+                                 (xhr-html "https://news.ycombinator.com/item?id=16967543"))]
+                    (when-let [resp (<mget hiring :response)]
+                      (println :got-hiring-response!!!)
+
+                      (list hiring))))]
+
+    (let [r (first (cf-await xhrs 10))]
+      (is (not (nil? r)))
+      (when r
+        (println :statkey (xhr-status r))
+
+        (is (= 200 (xhr-status r)))
+        ;;(pln :respo!! (xhr-response r))
+        ;;(pln :parsed (xml/parse (:body (xhr-response r))))
+        (pln :respo!! (xhrfo r)))
+      )))
+
 (deftest xhr-tree-simple
   (binding [*plnk-keys* [:xhr]]
     (let [top (make-xhr "http://google.com"
                 {:send?       true
                  :body-parser identity
                  :kids        (cF (cpr :kidrule!!!!!!)
-                                (when-let [parent (<mget me :response)]
-                                  (the-kids
-                                    (make-xhr "http://yahoo.com"
-                                      {:par         me
-                                       :send?       true
-                                       :body-parser identity})
-                                    (make-xhr "http://youtube.com"
-                                      {:par         me
-                                       :send?       true
-                                       :body-parser identity}))))})]
+                                  (when-let [parent (<mget me :response)]
+                                    (the-kids
+                                      (make-xhr "http://yahoo.com"
+                                        {:par         me
+                                         :send?       true
+                                         :body-parser identity})
+                                      (make-xhr "http://youtube.com"
+                                        {:par         me
+                                         :send?       true
+                                         :body-parser identity}))))})]
 
       ;;(xhr-send top)
       (when (xhr-await top)
@@ -325,21 +361,21 @@
                                        (println (str :xhrseq-new!! (count new)))
                                        ;; (println :fini!!! (map xhrfo new))
                                        (is (= 3 (count new)))
-                                       #_ (is (every? #(= :responded (xhr-status-key %))
-                                             new))))]
+                                       #_(is (every? #(= :responded (xhr-status-key %))
+                                                     new))))]
 
-                    (when-let [google (xhr-response
-                                        (with-synapse (:s-goog)
-                                          (xhr-html "http://google.com")))]
+                       (when-let [google (xhr-response
+                                           (with-synapse (:s-goog)
+                                             (xhr-html "http://google.com")))]
 
-                      (when-let [yahoo (xhr-response
-                                         (with-synapse (:s-yahoo)
-                                           (xhr-html "http://yahoo.com")))]
-                        (when-let [youtube (xhr-response
-                                             (with-synapse (:s-tube)
-                                               (xhr-html "http://youtube.com")))]
-                          (cpr :youtube! )
-                          (list google yahoo youtube)))))]
+                         (when-let [yahoo (xhr-response
+                                            (with-synapse (:s-yahoo)
+                                              (xhr-html "http://yahoo.com")))]
+                           (when-let [youtube (xhr-response
+                                                (with-synapse (:s-tube)
+                                                  (xhr-html "http://youtube.com")))]
+                             (cpr :youtube!)
+                             (list google yahoo youtube)))))]
     ;; cf-await means cell-formulaic await. Although the body above shows xhr-wait, that
     ;; is just the body of the cell. In cf-await we patiently wait for the cell formula to
     ;; return a non-nil value, and
@@ -375,18 +411,18 @@
   (binding [*dp-log* true]
     (letfn [(cx-if-else [goog-uri]
               (cF (cpr :runnning!!!)
-                (when-let [google (with-synapse (:s-goog)
-                                    (send-unparsed-xhr :s-goog "http://google.com" false))]
-                  (cpr :got-goog??? google)
-                  (when (<mget google :response)
-                    (cpr :got-goog!!! (xhrfo google))
-                    (if (xhr-error? google)
-                      (when-let [yahoo (synaptic-xhr-unparsed :s-yahoo "http://yahoo.com")]
-                        (cpr :goog-error-try-yahoo)
-                        (list yahoo))
-                      (when-let [youtube (synaptic-xhr-unparsed :s-youtube "http://youtube.com")]
-                        (cpr :goog-ok-add-youtube)
-                        (list google youtube)))))))]
+                  (when-let [google (with-synapse (:s-goog)
+                                      (send-unparsed-xhr :s-goog "http://google.com" false))]
+                    (cpr :got-goog??? google)
+                    (when (<mget google :response)
+                      (cpr :got-goog!!! (xhrfo google))
+                      (if (xhr-error? google)
+                        (when-let [yahoo (synaptic-xhr-unparsed :s-yahoo "http://yahoo.com")]
+                          (cpr :goog-error-try-yahoo)
+                          (list yahoo))
+                        (when-let [youtube (synaptic-xhr-unparsed :s-youtube "http://youtube.com")]
+                          (cpr :goog-ok-add-youtube)
+                          (list google youtube)))))))]
       (let [cx-ok (cx-if-else "http://google.com")]
         (let [r (cf-await cx-ok)]
           (is (not (nil? r)))
@@ -418,8 +454,8 @@
                         (when new
                           (println :got-xhr!!!!!! new)
                           (swap! responses conj new)))]
-             (when-let [xhr (c-get h)]
-               (xhrfo xhr)))]
+                (when-let [xhr (c-get h)]
+                  (xhrfo xhr)))]
     (dotimes [_ 3]
       (cf-await h1))
     (Thread/sleep 2000)
@@ -460,30 +496,30 @@
   (cells-init)
   (let [h (cF (let [f15 (merge
                           (when-let [f1v (with-xhr-body :get-f1
-                                           (xhr-dummy :f1-service-a
-                                             {:latency  100
-                                              :response "responseA"}))]
+                                                        (xhr-dummy :f1-service-a
+                                                          {:latency  100
+                                                           :response "responseA"}))]
                             {:f1 f1v
                              :f3 (with-xhr-body :get-f3
-                                   (xhr-dummy :service-c
-                                     {:params   {:f1 f1v}
-                                      :latency  60
-                                      :response #(str "responseB-" (:f1 %))}))})
+                                                (xhr-dummy :service-c
+                                                  {:params   {:f1 f1v}
+                                                   :latency  60
+                                                   :response #(str "responseB-" (:f1 %))}))})
                           (when-let [f2v (with-xhr-body :get-f2
-                                           (xhr-dummy :f2-service-b
-                                             {:latency  40
-                                              :response 100}))]
+                                                        (xhr-dummy :f2-service-b
+                                                          {:latency  40
+                                                           :response 100}))]
                             {:f2 f2v
                              :f4 (with-xhr-body :get-f4
-                                   (xhr-dummy :service-d
-                                     {:params   {:f2 f2v}
-                                      :latency  140
-                                      :response #(+ 40 (:f2 %))}))
+                                                (xhr-dummy :service-d
+                                                  {:params   {:f2 f2v}
+                                                   :latency  140
+                                                   :response #(+ 40 (:f2 %))}))
                              :f5 (with-xhr-body :get-f5
-                                   (xhr-dummy :service-e
-                                     {:params   {:f2 f2v}
-                                      :latency  55
-                                      :response #(+ 5000 (:f2 %))}))}))]
+                                                (xhr-dummy :service-e
+                                                  {:params   {:f2 f2v}
+                                                   :latency  55
+                                                   :response #(+ 5000 (:f2 %))}))}))]
                 (println :so-far!!!!!!!!!!! f15)
 
                 (let [must [:f3 :f4 :f5]
@@ -528,7 +564,7 @@
               :result (cF (when (and (every? #(<mget me %) [:f3 :f45])
                                      (every? xhr-response (<mget me :f45)))
                             (let [rs (concat (map #(xhr-response (<mget me %)) [:f1 :f2 :f3])
-                                       (map xhr-response (<mget me :f45)))]
+                                             (map xhr-response (<mget me :f45)))]
                               (when (every? identity rs)
                                 (map :body rs))))))]
 
@@ -566,7 +602,7 @@
               :result (cF (when (and (every? #(<mget me %) [:f3 :f45])
                                      (every? xhr-response (<mget me :f45)))
                             (let [rs (concat (map #(xhr-response (<mget me %)) [:f1 :f2 :f3])
-                                       (map xhr-response (<mget me :f45)))]
+                                             (map xhr-response (<mget me :f45)))]
                               (when (every? identity rs)
                                 (map :body rs))))))]
 
@@ -579,7 +615,7 @@
 (defn cf-await
   ([c] (cf-await c 5))
   ([c max-seconds]
-    (println :cf-waiting!!!!!! max-seconds)
+   (println :cf-waiting!!!!!! max-seconds)
    (loop [x 0]
      (let [r (c-get c)]
        (cond
@@ -597,18 +633,18 @@
   ([tag fn] (fn-await tag fn 3))
   ([tag fn max-seconds]
    (or (fn)
-     (if (> max-seconds 0)
-       #?(:clj  (do
-                  (cpr :no-response-xhr-await-sleeping-max max-seconds )
-                  (Thread/sleep 1000)
-                  (recur tag fn (dec max-seconds)))
-          :cljs (js/setTimeout
-                  (fn []
-                    (cpr :fn-await-sleeping-max max-seconds )
-                    (fn-await tag fn (dec max-seconds))) 1000))
+       (if (> max-seconds 0)
+         #?(:clj  (do
+                    (cpr :no-response-xhr-await-sleeping-max max-seconds)
+                    (Thread/sleep 1000)
+                    (recur tag fn (dec max-seconds)))
+            :cljs (js/setTimeout
+                    (fn []
+                        (cpr :fn-await-sleeping-max max-seconds)
+                        (fn-await tag fn (dec max-seconds))) 1000))
 
-       (do (println :fn-await-timeout! max-seconds )
-           nil)))))
+         (do (println :fn-await-timeout! max-seconds)
+             nil)))))
 
 ;;; --- Archive ------------------------------------------------
 
