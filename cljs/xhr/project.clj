@@ -3,8 +3,8 @@
   :url "https://github.com/kennytilton/xhr"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.228"]
+  :dependencies [[org.clojure/clojure "1.9.0"]
+                 [org.clojure/clojurescript "1.10.339"]
                  [clj-http "3.7.0"]
                  [cljs-http "0.1.44"]
                  [cljs-ajax "0.7.2"]
@@ -12,7 +12,7 @@
                  [com.cognitect/transit-cljs "0.8.243"]
                  [se.haleby/stub-http "0.2.3"]
                  [com.taoensso/tufte "1.1.2"]
-                 [com.tiltontec/matrix "0.1.3-SNAPSHOT"]]
+                 [com.tiltontec/matrix "0.1.5-SNAPSHOT"]]
   :plugins [[lein-cljsbuild "1.1.3"]
             [lein-doo "0.1.6"]]
   :doo {:paths {:rhino "lein run -m org.mozilla.javascript.tools.shell.Main"}}
